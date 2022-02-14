@@ -1,0 +1,54 @@
+*vim-gindent* *gindent*
+
+A general purpose indentexpr plugin for vim and nvim.
+
+==============================================================================
+CONTENTS                                                      *gindent-contents*
+
+Usage                                                            |gindent-usage|
+Variable                                                      |gindent-variable|
+Function                                                      |gindent-function|
+
+
+
+==============================================================================
+Usage                                                            *gindent-usage*
+
+First of all, I don't recommend enabling `vim-gindent` for all filetypes.
+You should specify only for filetypes that the indentation doesn't work properly.
+>
+  let g:gindent = {}
+  let g:gindent.filetypes = ['vim', ...]
+<
+
+
+==============================================================================
+Variable                                                      *gindent-variable*
+
+
+g:gindent.filetypes~
+  Specify the filetypes that enables the `vim-gindent`.
+
+
+
+==============================================================================
+Function                                                      *gindent-function*
+
+
+gindent#register_preset(filetype, preset)~
+  Register new preset of indentation for specified filetype.
+
+  The `preset` arguments can have the following properties. 
+
+  - `indent_patterns`:
+    A patterns for deciding whether to indent or not. It applies to the prev line.
+  - `dedent_patterns`:
+    A patterns for deciding whether to dedent or not. It applies to the curr line.
+
+  See ../autoload/gindent/preset/vim.vim
+
+
+==============================================================================
+ vim:tw=78:ts=4:et:ft=help:norl:
+
+
