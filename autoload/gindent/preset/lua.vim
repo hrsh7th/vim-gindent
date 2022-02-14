@@ -5,6 +5,7 @@ function! gindent#preset#lua#get() abort
   \     '^\s*\<for\>.\{-}\<do\>',
   \     '^\s*\<while\>.\{-}\<do\>',
   \     '\<function\>(.\{-})\s*$',
+  \     '\<function\> \w\+\%(\.\w\+\)\?(.\{-})\s*$',
   \     '{\s*$',
   \     '(\s*$',
   \     '[\s*$',
