@@ -21,4 +21,3 @@ function! gindent#preset#lua#get() abort
   \ }
 endfunction
 
-
