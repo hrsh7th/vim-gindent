@@ -4,7 +4,7 @@ end
 let g:loaded_gindent = v:true
 
 let g:gindent = get(g:, 'gindent', {})
-let g:gindent.enabled = { -> v:false }
+let g:gindent.enabled = get(g:gindent, 'enabled', { -> v:false })
 
 augroup gindent
   autocmd!
