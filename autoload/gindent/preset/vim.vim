@@ -19,6 +19,8 @@ function! gindent#preset#vim#get() abort
   \     '^\s*\<end\%[for]\>',
   \     '^\s*\<end\%[function]\>',
   \     '^\s*\<augroup END\>',
+  \     '^\s*\<else\>',
+  \     '^\s*\<elseif\>',
   \     '^\s*}',
   \     '^\s*)',
   \     '^\s*]',
