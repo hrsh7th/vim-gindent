@@ -33,6 +33,7 @@ function! gindent#indentexpr() abort
 
   " indent for pair-open identifiers. 
   for l:indent_pattern in l:preset.indent_patterns
+    let l:indent_pattern = type(l:indent_pattern) == v:t_list ? join(l:indent_pattern, '\s\{-}') : l:indent_pattern
     if l:prev_line =~# l:indent_pattern
       let l:prev_indent_count += shiftwidth()
       break
@@ -41,6 +42,7 @@ function! gindent#indentexpr() abort
 
   " dedent for pair-close identifiers. 
   for l:dedent_pattern in l:preset.dedent_patterns
+    let l:dedent_pattern = type(l:dedent_pattern) == v:t_list ? join(l:dedent_pattern, '\s\{-}') : l:dedent_pattern
     if l:curr_line =~# l:dedent_pattern
       if l:curr_indent_count <= l:prev_indent_count
         let l:prev_indent_count -= shiftwidth()
