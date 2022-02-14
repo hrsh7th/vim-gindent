@@ -11,8 +11,10 @@ endfunction
 " gindent#apply
 "
 function! gindent#apply() abort
-  if index(g:gindent.filetypes, &filetype) == -1
-    return
+  if index(g:gindent.filetypes, '*') == -1
+    if index(g:gindent.filetypes, &filetype) == -1
+      return
+    endif
   endif
   setlocal indentexpr=gindent#indentexpr()
 endfunction

@@ -20,6 +20,10 @@ You should specify only for filetypes that the indentation doesn't work properly
   let g:gindent = {}
   let g:gindent.filetypes = ['vim', ...]
 <
+If you want to enable `vim-gindent` for all filetypes, You can specify the `*` to filetypes.
+>
+  let g:gindent.filetypes = ['*']
+<
 
 
 ==============================================================================
