@@ -4,7 +4,7 @@ end
 let g:loaded_gindent = v:true
 
 let g:gindent = get(g:, 'gindent', {})
-let g:gindent.filetypes = get(g:gindent, 'filetypes', [])
+let g:gindent.enabled = { -> v:false }
 
 augroup gindent
   autocmd!

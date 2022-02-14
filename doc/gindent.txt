@@ -18,11 +18,11 @@ First of all, I don't recommend enabling `vim-gindent` for all filetypes.
 You should specify only for filetypes that the indentation doesn't work properly.
 >
   let g:gindent = {}
-  let g:gindent.filetypes = ['vim', ...]
+  let g:gindent.enabled = { -> index(['vim'], &filetype) != -1 }
 <
 If you want to enable `vim-gindent` for all filetypes, You can specify the `*` to filetypes.
 >
-  let g:gindent.filetypes = ['*']
+  let g:gindent.enabled = { -> v:true }
 <
 
 
@@ -30,8 +30,8 @@ If you want to enable `vim-gindent` for all filetypes, You can specify the `*` t
 Variable                                                      *gindent-variable*
 
 
-g:gindent.filetypes~
-  Specify the filetypes that enables the `vim-gindent`.
+g:gindent.enabled~
+  Specify the function that returns v:true / v:false.
 
 
 
@@ -54,5 +54,4 @@ gindent#register_preset(filetype, preset)~
 
 ==============================================================================
  vim:tw=78:ts=4:et:ft=help:norl:
-
 

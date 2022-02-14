@@ -10,7 +10,7 @@ You should specify only for filetypes that the indentation doesn't work properly
 
 ```
 let g:gindent = {}
-let g:gindent.filetypes = ['vim', 'php', ...]
+let g:gindent.enabled = { -> index(['vim', 'php', ...], &filetype) != -1 }
 ```
 
 # Note
