@@ -12,7 +12,11 @@ endfunction
 "
 function! gindent#apply() abort
   if g:gindent.enabled()
+    let l:preset = get(s:presets, &filetype, gindent#preset#default#get())
     setlocal indentexpr=gindent#indentexpr()
+    if has_key(l:preset, 'continuation_symbols')
+      execute printf('setlocal indentkeys+=%s', join(map(l:preset.continuation_symbols, '"=" ..  escape(v:val, ",| ")'), ','))
+    endif
   endif
 endfunction
 
@@ -32,8 +36,20 @@ function! gindent#indentexpr() abort
 
   " indent for pair-open identifiers. 
   for l:indent_pattern in l:preset.indent_patterns
-    let l:indent_pattern = type(l:indent_pattern) == v:t_list ? join(l:indent_pattern, '\s\{-}') : l:indent_pattern
-    if l:prev_line =~# l:indent_pattern
+    let l:pattern = type(l:indent_pattern) == v:t_list ? join(l:indent_pattern, '\s\{-}') : l:indent_pattern
+    if l:prev_line =~# l:pattern
+      let l:prev_indent_count += shiftwidth()
+      break
+    endif
+  endfor
+
+  " indent for line continuation. 
+  for l:continuation_symbol in get(l:preset, 'continuation_symbols', [])
+    if l:prev_line =~# '\V' .. l:continuation_symbol .. '\m\s*$'
+      let l:prev_indent_count += shiftwidth()
+      break
+    endif
+    if l:curr_line =~# '^\s*\V' .. l:continuation_symbol .. '\m'
       let l:prev_indent_count += shiftwidth()
       break
     endif
@@ -41,8 +57,8 @@ function! gindent#indentexpr() abort
 
   " dedent for pair-close identifiers. 
   for l:dedent_pattern in l:preset.dedent_patterns
-    let l:dedent_pattern = type(l:dedent_pattern) == v:t_list ? join(l:dedent_pattern, '\s\{-}') : l:dedent_pattern
-    if l:curr_line =~# l:dedent_pattern
+    let l:pattern = type(l:dedent_pattern) == v:t_list ? join(l:dedent_pattern, '\s\{-}') : l:dedent_pattern
+    if l:curr_line =~# l:pattern
       if l:curr_indent_count <= l:prev_indent_count
         let l:prev_indent_count -= shiftwidth()
       else

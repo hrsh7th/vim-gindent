@@ -6,6 +6,11 @@ function! gindent#preset#default#get() abort
   \     '\V[\m\s*$',
   \     '\V<\m\s*$',
   \   ],
+  \   'continuation_symbols': [
+  \     '.',
+  \     '::',
+  \     '->',
+  \   ],
   \   'dedent_patterns': [
   \     '^\s*\V}\m',
   \     '^\s*\V)\m',
