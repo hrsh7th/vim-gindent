@@ -76,18 +76,20 @@ endfunction
 " s:indent
 "
 function! s:indent(lnum) abort
-  " Avoid adjusting indentation for the doc comments.
-  if gindent#syntax#in(['Comment', 'TSComment'])
-    return indent(a:lnum)
-  endif
-
   let l:one_indent = s:get_one_indent()
   let l:total_indent = matchstr(getline(a:lnum), '^\s*')
   let l:rest_indent = l:total_indent
   while strlen(l:rest_indent) >= strlen(l:one_indent)
     let l:rest_indent = strpart(l:rest_indent, strlen(l:one_indent))
   endwhile
-  return strlen(l:total_indent) - strlen(l:rest_indent)
+  let l:fixed_indent = strlen(l:total_indent) - strlen(l:rest_indent)
+
+  if gindent#syntax#in(['Comment', 'TSComment'])
+    if getline('.') =~# '^\s*\*'
+      let l:fixed_indent += 1
+    endif
+  endif
+  return l:fixed_indent
 endfunction
 
 "
