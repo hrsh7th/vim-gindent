@@ -69,6 +69,13 @@ function! gindent#indentexpr() abort
     endif
   endfor
 
+  " Fix for docblock comments. 
+  if gindent#syntax#in(['Comment', 'TSComment'])
+    if l:curr_line =~# '^\s*\*'
+      let l:prev_indent_count += 1
+    endif
+  endif
+
   return l:prev_indent_count
 endfunction
 
@@ -82,14 +89,7 @@ function! s:indent(lnum) abort
   while strlen(l:rest_indent) >= strlen(l:one_indent)
     let l:rest_indent = strpart(l:rest_indent, strlen(l:one_indent))
   endwhile
-  let l:fixed_indent = strlen(l:total_indent) - strlen(l:rest_indent)
-
-  if gindent#syntax#in(['Comment', 'TSComment'])
-    if getline('.') =~# '^\s*\*'
-      let l:fixed_indent += 1
-    endif
-  endif
-  return l:fixed_indent
+  return strlen(l:total_indent) - strlen(l:rest_indent)
 endfunction
 
 "
