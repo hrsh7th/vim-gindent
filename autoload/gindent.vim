@@ -35,31 +35,24 @@ function! gindent#indentexpr() abort
   let l:curr_indent_count = s:indent(v:lnum)
 
   " indent for pair-open identifiers. 
-  for l:indent_pattern in get(l:preset, 'indent_patterns', [])
-    let l:pattern = type(l:indent_pattern) == v:t_list ? join(l:indent_pattern, '\s*') : l:indent_pattern
-    if l:prev_line =~# l:pattern
+  for l:pattern in get(l:preset, 'indent_patterns', [])
+    if s:match(l:prev_line, l:curr_line, l:pattern)
       let l:prev_indent_count += shiftwidth()
       break
     endif
   endfor
 
   " indent for line continuation. 
-  for l:continuation_pattern in get(l:preset, 'continuation_patterns', [])
-    let l:pattern = type(l:continuation_pattern) == v:t_list ? join(l:continuation_pattern, '\s*') : l:continuation_pattern
-    if l:prev_line =~# l:pattern
-      let l:prev_indent_count += shiftwidth()
-      break
-    endif
-    if l:curr_line =~# l:pattern
+  for l:pattern in get(l:preset, 'continuation_patterns', [])
+    if s:match(l:prev_line, l:curr_line, l:pattern)
       let l:prev_indent_count += shiftwidth()
       break
     endif
   endfor
 
   " dedent for pair-close identifiers. 
-  for l:dedent_pattern in get(l:preset, 'dedent_patterns', [])
-    let l:pattern = type(l:dedent_pattern) == v:t_list ? join(l:dedent_pattern, '\s*') : l:dedent_pattern
-    if l:curr_line =~# l:pattern
+  for l:pattern in get(l:preset, 'dedent_patterns', [])
+    if s:match(l:prev_line, l:curr_line, l:pattern)
       if l:curr_indent_count <= l:prev_indent_count
         let l:prev_indent_count -= shiftwidth()
       else
@@ -90,6 +83,20 @@ function! s:indent(lnum) abort
     let l:rest_indent = strpart(l:rest_indent, strlen(l:one_indent))
   endwhile
   return strlen(l:total_indent) - strlen(l:rest_indent)
+endfunction
+
+"
+" s:match 
+"
+function! s:match(prev_text, curr_text, pattern) abort
+  let l:matched = v:true
+  if has_key(a:pattern, 'prev')
+    let l:matched = l:matched && a:prev_text =~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s\{-}') : a:pattern.prev)
+  endif
+  if has_key(a:pattern, 'curr')
+    let l:matched = l:matched && a:curr_text =~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s\{-}') : a:pattern.curr)
+  endif
+  return l:matched
 endfunction
 
 "

@@ -44,14 +44,15 @@ gindent#register_preset(filetype, preset)~
 
   The `preset` arguments can have the following properties. 
 
-  - `indent_patterns`:
-    A patterns for deciding whether to indent or not. It applies to the prev line.
-  - `dedent_patterns`:
-    A patterns for deciding whether to dedent or not. It applies to the curr line.
-  - `continuation_patterns`:
-    A patterns for deciding whether to indent or not. It applies to the both line.
-  - `indentkeys`:
-    An additional indentkeys for specific filetype.
+  - `indent_patterns`: The `gindent-pattern` for indent. 
+  - `dedent_patterns`: The `gindent-pattern` for dedent. 
+  - `continuation_patterns`: The `gindent-pattern` for indent. 
+  - `indentkeys`: An additional indentkeys for specific filetype.
+
+  NOTE: The `gindent-pattern` is currently can have the following properties. 
+
+    - `prev`: The pattern or array of patterns for prev line.
+    - `curr`: The pattern or array of patterns for curr line.
 
   See ../autoload/gindent/preset/vim.vim
 
