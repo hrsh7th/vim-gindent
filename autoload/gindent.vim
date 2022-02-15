@@ -82,7 +82,11 @@ function! s:indent(lnum) abort
   while strlen(l:rest_indent) >= strlen(l:one_indent)
     let l:rest_indent = strpart(l:rest_indent, strlen(l:one_indent))
   endwhile
-  return strlen(l:total_indent) - strlen(l:rest_indent)
+  let l:fixed_indent = strlen(l:total_indent) - strlen(l:rest_indent)
+  if &expandtab == 0
+    let l:fixed_indent *= shiftwidth()
+  endif
+  return l:fixed_indent
 endfunction
 
 "
