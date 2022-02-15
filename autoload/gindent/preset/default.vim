@@ -6,10 +6,10 @@ function! gindent#preset#default#get() abort
   \     '->'
   \   ],
   \   'indent_patterns': [
-  \     '\V{\m\s*$',
-  \     '\V(\m\s*$',
-  \     '\V[\m\s*$',
-  \     '\V<\m\s*$',
+  \     ['\V{\m', '$'],
+  \     ['\V(\m', '$'],
+  \     ['\V[\m', '$'],
+  \     ['\V<\m', '$'],
   \   ],
   \   'continuation_patterns': [
   \     ['\.', '$'],
@@ -20,10 +20,10 @@ function! gindent#preset#default#get() abort
   \     ['^', '->'],
   \   ],
   \   'dedent_patterns': [
-  \     '^\s*\V}\m',
-  \     '^\s*\V)\m',
-  \     '^\s*\V]\m',
-  \     '^\s*\V>\m',
+  \     ['^', '\V}\m'],
+  \     ['^', '\V)\m'],
+  \     ['^', '\V]\m'],
+  \     ['^', '\V>\m'],
   \   ]
   \ }
 endfunction
