@@ -28,7 +28,7 @@ function! gindent#indentexpr() abort
     return 0
   endif
 
-  let l:preset = get(s:presets, &filetype, gindent#preset#default#get())
+  let l:preset = get(s:presets, &filetype, s:presets['*'])
   let l:prev_line = getline(prevnonblank(v:lnum - 1))
   let l:curr_line = getline(v:lnum)
   let l:prev_indent_count = s:indent(prevnonblank(v:lnum - 1))

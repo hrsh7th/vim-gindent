@@ -11,6 +11,7 @@ augroup gindent
   autocmd FileType * call gindent#apply()
 augroup END
 
+call gindent#register_preset('*', gindent#preset#default#get())
 call gindent#register_preset('vim', gindent#preset#vim#get())
 call gindent#register_preset('lua', gindent#preset#lua#get())
 
