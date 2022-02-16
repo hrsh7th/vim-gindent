@@ -42,14 +42,6 @@ function! gindent#indentexpr() abort
     endif
   endfor
 
-  " indent for line continuation. 
-  for l:pattern in get(l:preset, 'continuation_patterns', [])
-    if s:match(l:prev_line, l:curr_line, l:pattern)
-      let l:prev_indent_count += shiftwidth()
-      break
-    endif
-  endfor
-
   " dedent for pair-close identifiers. 
   for l:pattern in get(l:preset, 'dedent_patterns', [])
     if s:match(l:prev_line, l:curr_line, l:pattern)

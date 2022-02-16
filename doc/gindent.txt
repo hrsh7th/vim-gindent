@@ -46,7 +46,6 @@ gindent#register_preset(filetype, preset)~
 
   - `indent_patterns`: The `gindent-pattern` for indent. 
   - `dedent_patterns`: The `gindent-pattern` for dedent. 
-  - `continuation_patterns`: The `gindent-pattern` for indent. 
   - `indentkeys`: An additional indentkeys for specific filetype.
 
   NOTE: The `gindent-pattern` is currently can have the following properties. 

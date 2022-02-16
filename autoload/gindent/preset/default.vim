@@ -10,8 +10,6 @@ function! gindent#preset#default#get() abort
   \     { 'prev': ['\V(\m', '$'] },
   \     { 'prev': ['\V[\m', '$'] },
   \     { 'prev': ['\V<\m', '$'] },
-  \   ],
-  \   'continuation_patterns': [
   \     { 'prev': ['\.', '$'] },
   \     { 'prev': ['::', '$'] },
   \     { 'prev': ['->', '$'] },
