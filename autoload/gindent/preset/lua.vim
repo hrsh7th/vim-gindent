@@ -1,5 +1,9 @@
 function! gindent#preset#lua#get() abort
   return {
+  \   'indentkeys': [
+  \     '.',
+  \     ':',
+  \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>.\{-}\<then\>'] },
   \     { 'prev': ['^', '\<for\>.\{-}\<do\>'] },
@@ -10,6 +14,10 @@ function! gindent#preset#lua#get() abort
   \     { 'prev': ['\V(\m', '$'] },
   \     { 'prev': ['\V[\m', '$'] },
   \     { 'prev': ['\V<\m', '$'] },
+  \     { 'prev': ['\.', '$'] },
+  \     { 'curr': ['^', '\.'] },
+  \     { 'prev': ['\:', '$'] },
+  \     { 'curr': ['^', '\:'] },
   \   ],
   \   'dedent_patterns': [
   \     { 'curr': ['^', '\<end\>'] },
