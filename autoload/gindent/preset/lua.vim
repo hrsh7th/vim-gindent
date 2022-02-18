@@ -1,9 +1,5 @@
 function! gindent#preset#lua#get() abort
   return {
-  \   'indentkeys': [
-  \     '.',
-  \     ':',
-  \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>.\{-}\<then\>'] },
   \     { 'prev': ['^', '\<for\>.\{-}\<do\>'] },
