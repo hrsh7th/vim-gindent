@@ -87,10 +87,10 @@ endfunction
 function! s:match(prev_text, curr_text, pattern) abort
   let l:matched = v:true
   if has_key(a:pattern, 'prev')
-    let l:matched = l:matched && a:prev_text =~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s\{-}') : a:pattern.prev)
+    let l:matched = l:matched && a:prev_text =~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s*') : a:pattern.prev)
   endif
   if has_key(a:pattern, 'curr')
-    let l:matched = l:matched && a:curr_text =~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s\{-}') : a:pattern.curr)
+    let l:matched = l:matched && a:curr_text =~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s*') : a:pattern.curr)
   endif
   return l:matched
 endfunction
