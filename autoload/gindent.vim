@@ -69,16 +69,12 @@ endfunction
 "
 function! s:indent(lnum) abort
   let l:one_indent = s:get_one_indent()
-  let l:total_indent = matchstr(getline(a:lnum), '^\s*')
+  let l:total_indent = substitute(matchstr(getline(a:lnum), '^\s*'), '\t', l:one_indent, 'g')
   let l:rest_indent = l:total_indent
   while strlen(l:rest_indent) >= strlen(l:one_indent)
     let l:rest_indent = strpart(l:rest_indent, strlen(l:one_indent))
   endwhile
-  let l:fixed_indent = strlen(l:total_indent) - strlen(l:rest_indent)
-  if &expandtab == 0
-    let l:fixed_indent *= shiftwidth()
-  endif
-  return l:fixed_indent
+  return strlen(l:total_indent) - strlen(l:rest_indent)
 endfunction
 
 "
@@ -99,6 +95,6 @@ endfunction
 " s:get_one_indent
 "
 function! s:get_one_indent() abort
-  return !&expandtab ? "\t" : repeat(' ', &shiftwidth ? &shiftwidth : &tabstop)
+  return repeat(' ', &shiftwidth ? &shiftwidth : &tabstop)
 endfunction
 
