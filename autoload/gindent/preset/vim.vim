@@ -8,6 +8,8 @@ function! gindent#preset#vim#get() abort
   \     { 'prev': ['^', '\<for\>'] },
   \     { 'prev': ['^', '\<function\>'] },
   \     { 'prev': ['^', '\<augroup\>'] },
+  \     { 'prev': ['^', '\<Context\>'] },
+  \     { 'prev': ['^', '\<It\>'] },
   \   ],
   \   'dedent_patterns': [
   \     { 'curr': ['^', '\<en\%[dif]\>'] },
@@ -17,6 +19,7 @@ function! gindent#preset#vim#get() abort
   \     { 'curr': ['^', '\<augroup END\>'] },
   \     { 'curr': ['^', '\<else\>'] },
   \     { 'curr': ['^', '\<elseif\>'] },
+  \     { 'curr': ['^', '\<End\>'] },
   \   ]
   \ }
 endfunction

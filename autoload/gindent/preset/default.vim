@@ -13,9 +13,9 @@ function! gindent#preset#default#get() abort
   \     { 'prev': ['\.', '$'] },
   \     { 'prev': ['::', '$'] },
   \     { 'prev': ['->', '$'] },
-  \     { 'curr': ['^', '\.'] },
-  \     { 'curr': ['^', '::'] },
-  \     { 'curr': ['^', '->'] },
+  \     { 'prev': ['\w', '$'], 'curr': ['^', '\.'] },
+  \     { 'prev': ['\w', '$'], 'curr': ['^', '::'] },
+  \     { 'prev': ['\w', '$'], 'curr': ['^', '->'] },
   \   ],
   \   'dedent_patterns': [
   \     { 'curr': ['^', '\V}\m'] },

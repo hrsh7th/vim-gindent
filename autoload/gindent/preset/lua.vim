@@ -1,9 +1,9 @@
 function! gindent#preset#lua#get() abort
   return {
   \   'indent_patterns': [
-  \     { 'prev': ['^', '\<if\>.\{-}\<then\>'] },
-  \     { 'prev': ['^', '\<for\>.\{-}\<do\>'] },
-  \     { 'prev': ['^', '\<while\>.\{-}\<do\>'] },
+  \     { 'prev': ['^', '\<if\>.\{-}\<then\>', '$'] },
+  \     { 'prev': ['^', '\<for\>.\{-}\<do\>', '$'] },
+  \     { 'prev': ['^', '\<while\>.\{-}\<do\>', '$'] },
   \     { 'prev': ['\<function\>(.\{-})', '$'] },
   \     { 'prev': ['\<function\>', '\w\+\%(\.\w\+\)\?', '(.\{-})', '$'] },
   \     { 'prev': ['\V{\m', '$'] },

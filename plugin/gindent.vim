@@ -12,6 +12,7 @@ augroup gindent
 augroup END
 
 call gindent#register_preset('*', gindent#preset#default#get())
-call gindent#register_preset('vim', gindent#preset#vim#get())
 call gindent#register_preset('lua', gindent#preset#lua#get())
+call gindent#register_preset('vim', gindent#preset#vim#get())
+call gindent#register_preset('vimspec', gindent#preset#vim#get())
 
