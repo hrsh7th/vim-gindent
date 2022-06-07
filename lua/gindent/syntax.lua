@@ -7,7 +7,7 @@ function M.get_treesitter_syntax_groups(cursor)
     return {}
   end
 
-  local contains = function(node, cursor)
+  local contains = function(node)
     local row_s, col_s, row_e, col_e = node:range()
     local contains = true
     contains = contains and (row_s < cursor[1] or (row_s == cursor[1] and col_s <= cursor[2]))
@@ -22,10 +22,10 @@ function M.get_treesitter_syntax_groups(cursor)
     end
 
     local root = tstree:root()
-    if contains(root, cursor) then
+    if contains(root) then
       local query = highlighter:get_query(ltree:lang()):query()
       for id, node in query:iter_captures(root, bufnr, cursor[1], cursor[1] + 1) do
-        if contains(node, cursor) then
+        if contains(node) then
           local name = vim.treesitter.highlighter.hl_map[query.captures[id]]
           if name then
             table.insert(names, name)

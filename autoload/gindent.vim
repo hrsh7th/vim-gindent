@@ -84,9 +84,19 @@ function! s:match(prev_text, curr_text, pattern) abort
   let l:matched = v:true
   if has_key(a:pattern, 'prev')
     let l:matched = l:matched && a:prev_text =~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s*') : a:pattern.prev)
+    if l:matched && has_key(a:pattern, 'ignore_syntax')
+      if gindent#syntax#in(a:pattern.ignore_syntax, s:prev_cursor())
+        let l:matched = v:false
+      endif
+    endif
   endif
   if has_key(a:pattern, 'curr')
     let l:matched = l:matched && a:curr_text =~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s*') : a:pattern.curr)
+    if l:matched && has_key(a:pattern, 'ignore_syntax')
+      if gindent#syntax#in(a:pattern.ignore_syntax, s:curr_cursor())
+        let l:matched = v:false
+      endif
+    endif
   endif
   return l:matched
 endfunction
@@ -96,5 +106,21 @@ endfunction
 "
 function! s:get_one_indent() abort
   return repeat(' ', &shiftwidth ? &shiftwidth : &tabstop)
+endfunction
+
+
+"
+" s:curr_cursor
+"
+function! s:curr_cursor() abort
+  return getcurpos()[1:2]
+endfunction
+
+"
+" s:prev_cursor
+"
+function! s:prev_cursor() abort
+  let l:prev_lnum = max([line('.') - 1, 1])
+  return [l:prev_lnum, strlen(getline(l:prev_lnum)) + 1]
 endfunction
 

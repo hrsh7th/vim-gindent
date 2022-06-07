@@ -52,6 +52,7 @@ gindent#register_preset(filetype, preset)~
 
     - `prev`: The pattern or array of patterns for prev line.
     - `curr`: The pattern or array of patterns for curr line.
+    - `ignore_syntax`: The array of syntax group name for ignoring this pattern.
 
   See ../autoload/gindent/preset/vim.vim
 
