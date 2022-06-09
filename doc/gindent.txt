@@ -44,6 +44,7 @@ gindent#register_preset(filetype, preset)~
 
   The `preset` arguments can have the following properties. 
 
+  - `manual_patterns`: The `manual-pattern` for deciding indent count. 
   - `indent_patterns`: The `gindent-pattern` for indent. 
   - `dedent_patterns`: The `gindent-pattern` for dedent. 
   - `indentkeys`: An additional indentkeys for specific filetype.
@@ -53,6 +54,14 @@ gindent#register_preset(filetype, preset)~
     - `prev`: The pattern or array of patterns for prev line.
     - `curr`: The pattern or array of patterns for curr line.
     - `ignore_syntax`: The array of syntax group name for ignoring this pattern.
+    
+  NOTE: The `manual-pattern` is currently can have the following properties. 
+
+    - `prev`: The pattern or array of patterns for prev line.
+    - `curr`: The pattern or array of patterns for curr line.
+    - `ignore_syntax`: The array of syntax group name for ignoring this pattern.
+    - `func`: The function that should return number of indent count.
+
 
   See ../autoload/gindent/preset/vim.vim
 

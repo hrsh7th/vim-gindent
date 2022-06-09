@@ -1,5 +1,11 @@
 function! gindent#preset#default#get() abort
   return {
+  \   'indentkeys': [
+  \     '}',
+  \     ']',
+  \     ')',
+  \     '>',
+  \   ],
   \   'indent_patterns': [
   \     { 'prev': ['\V{\m', '$'] },
   \     { 'prev': ['\V(\m', '$'] },

@@ -9,6 +9,12 @@ function! gindent#preset#extend(parent, additional) abort
   for l:indentkey in get(a:parent, 'indentkeys', [])
     call add(l:preset.indentkeys, l:indentkey)
   endfor
+  
+  " manual_patterns.
+  let l:preset.manual_patterns = get(l:preset, 'manual_patterns', [])
+  for l:pattern in get(a:parent, 'manual_patterns', [])
+    call add(l:preset.manual_patterns, l:pattern)
+  endfor
 
   " indent_patterns.
   let l:preset.indent_patterns = get(l:preset, 'indent_patterns', [])

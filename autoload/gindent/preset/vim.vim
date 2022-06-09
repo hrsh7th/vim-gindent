@@ -1,5 +1,13 @@
 function! gindent#preset#vim#get() abort
-  return {
+  return gindent#preset#extend(gindent#preset#default#get(), {
+  \   'indentkeys': [
+  \     'end',
+  \     'End',
+  \     '\',
+  \   ],
+  \   'manual_patterns': [
+  \     { 'curr': ['^', '\'], 'func': { ctx -> ctx.prev_indent_count + g:vim_indent_cont } }
+  \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>'] },
   \     { 'prev': ['^', '\<else\>'] },
@@ -21,6 +29,6 @@ function! gindent#preset#vim#get() abort
   \     { 'curr': ['^', '\<elseif\>'] },
   \     { 'curr': ['^', '\<End\>'] },
   \   ]
-  \ }
+  \ })
 endfunction
 

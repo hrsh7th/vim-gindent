@@ -28,13 +28,26 @@ function! gindent#indentexpr() abort
     return 0
   endif
 
-  let l:preset = get(s:presets, &filetype, s:presets['*'])
+  let l:preset = get(s:presets, &filetype, get(s:presets, '*', v:null))
+  if l:preset is v:null
+    return 0
+  endif
   let l:prev_line = getline(prevnonblank(v:lnum - 1))
   let l:curr_line = getline(v:lnum)
   let l:prev_indent_count = s:indent(prevnonblank(v:lnum - 1))
   let l:curr_indent_count = s:indent(v:lnum)
+  
+  " manual_patterns.
+  for l:pattern in get(l:preset, 'manual_patterns', [])
+    if s:match(l:prev_line, l:curr_line, l:pattern)
+      return l:pattern.func({
+      \   'prev_indent_count': l:prev_indent_count,
+      \   'curr_indent_count': l:curr_indent_count,
+      \ })
+    endif
+  endfor
 
-  " indent for pair-open identifiers. 
+  " indent_patterns.
   for l:pattern in get(l:preset, 'indent_patterns', [])
     if s:match(l:prev_line, l:curr_line, l:pattern)
       let l:prev_indent_count += shiftwidth()
@@ -42,7 +55,7 @@ function! gindent#indentexpr() abort
     endif
   endfor
 
-  " dedent for pair-close identifiers. 
+  " dedent_patterns.
   for l:pattern in get(l:preset, 'dedent_patterns', [])
     if s:match(l:prev_line, l:curr_line, l:pattern)
       if l:curr_indent_count <= l:prev_indent_count

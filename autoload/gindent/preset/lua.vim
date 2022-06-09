@@ -1,15 +1,18 @@
 function! gindent#preset#lua#get() abort
-  return {
+  return gindent#preset#extend(gindent#preset#default#get(), {
+  \   'indentkeys': [
+  \     'elseif',
+  \     'else',
+  \     'end',
+  \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>.\{-}\<then\>', '$'] },
+  \     { 'prev': ['^', '\<elseif\>.\{-}\<then\>', '$'] },
+  \     { 'prev': ['^', '\<else\>', '$'] },
   \     { 'prev': ['^', '\<for\>.\{-}\<do\>', '$'] },
   \     { 'prev': ['^', '\<while\>.\{-}\<do\>', '$'] },
   \     { 'prev': ['\<function\>(.\{-})', '$'] },
   \     { 'prev': ['\<function\>', '\w\+\%([\.:]\w\+\)\?', '(.\{-})', '$'] },
-  \     { 'prev': ['\V{\m', '$'] },
-  \     { 'prev': ['\V(\m', '$'] },
-  \     { 'prev': ['\V[\m', '$'] },
-  \     { 'prev': ['\V<\m', '$'] },
   \     { 'prev': ['\.', '$'], 'ignore_syntax': ['Comment', 'TSComment'] },
   \     { 'prev': ['\:', '$'], 'ignore_syntax': ['Comment', 'TSComment'] },
   \     { 'curr': ['^', '\.'], 'ignore_syntax': ['Comment', 'TSComment'] },
@@ -17,11 +20,9 @@ function! gindent#preset#lua#get() abort
   \   ],
   \   'dedent_patterns': [
   \     { 'curr': ['^', '\<end\>'] },
-  \     { 'curr': ['^', '\V}\m'] },
-  \     { 'curr': ['^', '\V)\m'] },
-  \     { 'curr': ['^', '\V]\m'] },
-  \     { 'curr': ['^', '\V>\m'] },
+  \     { 'curr': ['^', '\<elseif\>.\{-}\<then\>', '$'] },
+  \     { 'curr': ['^', '\<else\>', '$'] },
   \   ]
-  \ }
+  \ })
 endfunction
 
