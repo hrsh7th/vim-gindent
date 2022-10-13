@@ -15,3 +15,4 @@ function gindent#preset#php#get() abort
   \   ],
   \ })
 endfunction
+

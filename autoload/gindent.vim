@@ -67,8 +67,8 @@ function! gindent#indentexpr() abort
     endif
   endfor
 
-  " Fix for docblock comments. 
-  if gindent#syntax#in(['Comment', 'TSComment'])
+  " Fix for docblock comments.
+  if gindent#syntax#in(['Comment', '@comment'])
     if l:curr_line =~# '^\s*\*'
       let l:prev_indent_count += 1
     endif
