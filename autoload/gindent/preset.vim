@@ -1,5 +1,6 @@
 "
 " gindent#preset#extend
+" @NOTE: The order is important. The `parent` preset must be added last.
 "
 function! gindent#preset#extend(parent, additional) abort
   let l:preset = deepcopy(a:additional)
