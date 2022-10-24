@@ -6,12 +6,12 @@ function gindent#preset#php#get() abort
   \     '->'
   \   ],
   \   'indent_patterns': [
-  \     { 'prev': ['\.', '$'], 'ignore_syntax': ['Comment', 'TSComment'] },
-  \     { 'prev': ['::', '$'], 'ignore_syntax': ['Comment', 'TSComment'] },
-  \     { 'prev': ['->', '$'], 'ignore_syntax': ['Comment', 'TSComment'] },
-  \     { 'prev': ['\w', '$'], 'curr': ['^', '\.'], 'ignore_syntax': ['Comment', 'TSComment'] },
-  \     { 'prev': ['\w', '$'], 'curr': ['^', '::'], 'ignore_syntax': ['Comment', 'TSComment'] },
-  \     { 'prev': ['\w', '$'], 'curr': ['^', '->'], 'ignore_syntax': ['Comment', 'TSComment'] },
+  \     { 'prev': ['\.', '$'], 'ignore_syntax': ['Comment', '@comment'] },
+  \     { 'prev': ['::', '$'], 'ignore_syntax': ['Comment', '@comment'] },
+  \     { 'prev': ['->', '$'], 'ignore_syntax': ['Comment', '@comment'] },
+  \     { 'prev': ['\w', '$'], 'curr': ['^', '\.'], 'ignore_syntax': ['Comment', '@comment'] },
+  \     { 'prev': ['\w', '$'], 'curr': ['^', '::'], 'ignore_syntax': ['Comment', '@comment'] },
+  \     { 'prev': ['\w', '$'], 'curr': ['^', '->'], 'ignore_syntax': ['Comment', '@comment'] },
   \   ],
   \ })
 endfunction
