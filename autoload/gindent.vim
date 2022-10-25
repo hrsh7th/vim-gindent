@@ -12,6 +12,12 @@ endfunction
 "
 function! gindent#apply() abort
   if g:gindent.enabled()
+    if exists('b:gindent') && get(b:gindent, 'setup', v:false)
+      return
+    endif
+    let b:gindent = get(b:, 'gindent', {})
+    let b:gindent.setup = v:true
+
     let l:preset = get(s:presets, &filetype, gindent#preset#default#get())
     setlocal indentexpr=gindent#indentexpr()
     if has_key(l:preset, 'indentkeys')
@@ -32,11 +38,14 @@ function! gindent#indentexpr() abort
   if l:preset is v:null
     return 0
   endif
-  let l:prev_line = getline(prevnonblank(v:lnum - 1))
-  let l:curr_line = getline(v:lnum)
-  let l:prev_indent_count = s:indent(prevnonblank(v:lnum - 1))
-  let l:curr_indent_count = s:indent(v:lnum)
-  
+
+  let l:curr_lnum = v:lnum
+  let l:prev_lnum = s:prev_lnum(l:curr_lnum, l:preset)
+  let l:curr_line = getline(l:curr_lnum)
+  let l:prev_line = getline(l:prev_lnum)
+  let l:curr_indent_count = s:indent_count(l:curr_lnum)
+  let l:prev_indent_count = s:indent_count(l:prev_lnum)
+
   " manual_patterns.
   for l:pattern in get(l:preset, 'manual_patterns', [])
     if s:match(l:prev_line, l:curr_line, l:pattern)
@@ -78,9 +87,34 @@ function! gindent#indentexpr() abort
 endfunction
 
 "
+" s:prev_lnum
+"
+function s:prev_lnum(curr_lnum, preset) abort
+  let l:prev_lnum = prevnonblank(a:curr_lnum - 1)
+  while l:prev_lnum > 0
+    let l:prev_line = getline(l:prev_lnum - 1)
+    let l:curr_line = getline(l:prev_lnum)
+
+    let l:found = v:false
+    for l:pattern in get(a:preset, 'continue_patterns', [])
+      let l:found = l:found || s:match(l:prev_line, l:curr_line, l:pattern)
+      if l:found
+        break
+      endif
+    endfor
+    if !l:found
+      break
+    endif
+
+    let l:prev_lnum = prevnonblank(l:prev_lnum - 1)
+  endwhile
+  return l:prev_lnum
+endfunction
+
+"
 " s:indent
 "
-function! s:indent(lnum) abort
+function! s:indent_count(lnum) abort
   let l:one_indent = s:get_one_indent()
   let l:total_indent = substitute(matchstr(getline(a:lnum), '^\s*'), '\t', l:one_indent, 'g')
   let l:rest_indent = l:total_indent
