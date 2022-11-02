@@ -89,7 +89,7 @@ endfunction
 " s:prev_lnum
 "
 function s:prev_lnum(curr_lnum, preset) abort
-  let l:curr_lnum = a:curr_lnum - 1
+  let l:curr_lnum = a:curr_lnum
   while l:curr_lnum > 1
     let l:curr_cursor = [l:curr_lnum, strlen(getline(l:curr_lnum))]
     let l:prev_lnum = prevnonblank(l:curr_lnum - 1)

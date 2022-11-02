@@ -10,7 +10,7 @@ function! gindent#preset#vim#get() abort
   \     { 'curr': ['^', '\w\+', '$'], 'curr_syntax': ['vimEmbedError', '@endmarker'], 'func': { ctx -> 0 } },
   \   ],
   \   'continue_patterns': [
-  \     { 'prev': ['^', '\w\+', '$'], 'prev': ['vimEmbedError', '@endmarker'] },
+  \     { 'prev': ['^', '\w\+', '$'], 'prev_syntax': ['vimEmbedError', '@endmarker'] },
   \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>'] },
