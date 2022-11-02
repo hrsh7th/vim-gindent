@@ -40,7 +40,7 @@ function! gindent#indentexpr() abort
   endif
 
   let l:curr_lnum = v:lnum
-  let l:curr_cursor = [l:curr_lnum, col('.')]
+  let l:curr_cursor = [l:curr_lnum, strlen(getline(l:curr_lnum))]
   let l:prev_lnum = s:prev_lnum(l:curr_lnum, l:preset)
   let l:prev_cursor = [l:prev_lnum, strlen(getline(l:prev_lnum))]
   let l:curr_line = getline(l:curr_lnum)
@@ -89,14 +89,17 @@ endfunction
 " s:prev_lnum
 "
 function s:prev_lnum(curr_lnum, preset) abort
-  let l:prev_lnum = prevnonblank(a:curr_lnum - 1)
-  while l:prev_lnum > 0
-    let l:prev_line = getline(l:prev_lnum - 1)
-    let l:curr_line = getline(l:prev_lnum)
+  let l:curr_lnum = a:curr_lnum - 1
+  while l:curr_lnum > 1
+    let l:curr_cursor = [l:curr_lnum, strlen(getline(l:curr_lnum))]
+    let l:prev_lnum = prevnonblank(l:curr_lnum - 1)
+    let l:prev_cursor = [l:prev_lnum, strlen(getline(l:prev_lnum))]
+    let l:curr_line = getline(l:curr_lnum)
+    let l:prev_line = getline(l:prev_lnum)
 
     let l:found = v:false
     for l:pattern in get(a:preset, 'continue_patterns', [])
-      let l:found = l:found || s:match(l:prev_line, l:curr_line, l:pattern)
+      let l:found = l:found || s:match(l:prev_cursor, l:curr_cursor, l:prev_line, l:curr_line, l:pattern)
       if l:found
         break
       endif
@@ -104,8 +107,7 @@ function s:prev_lnum(curr_lnum, preset) abort
     if !l:found
       break
     endif
-
-    let l:prev_lnum = prevnonblank(l:prev_lnum - 1)
+    let l:curr_lnum = l:prev_lnum
   endwhile
   return l:prev_lnum
 endfunction

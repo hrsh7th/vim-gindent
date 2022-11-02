@@ -9,6 +9,9 @@ function! gindent#preset#vim#get() abort
   \     { 'curr': ['^', '\'], 'func': { ctx -> ctx.prev_indent_count + g:vim_indent_cont } },
   \     { 'curr': ['^', '\w\+', '$'], 'curr_syntax': ['vimEmbedError', '@endmarker'], 'func': { ctx -> 0 } },
   \   ],
+  \   'continue_patterns': [
+  \     { 'prev': ['^', '\w\+', '$'], 'prev': ['vimEmbedError', '@endmarker'] },
+  \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>'] },
   \     { 'prev': ['^', '\<else\>'] },
