@@ -52,7 +52,9 @@ gindent#register_preset(filetype, preset)~
   NOTE: The `gindent-pattern` is currently can have the following properties. 
 
     - `prev`: The pattern or array of patterns for prev line.
+    - `prev!`: The pattern or array of patterns for prev line (negated);
     - `curr`: The pattern or array of patterns for curr line.
+    - `curr!`: The pattern or array of patterns for curr line (negated);
     - `ignore_syntax`: The array of syntax group name for ignoring this pattern for prev/curr line.
     - `ignore_syntax_prev`: The array of syntax group name for ignoring this pattern for previous line.
     - `ignore_syntax_curr`: The array of syntax group name for ignoring this pattern for current line.

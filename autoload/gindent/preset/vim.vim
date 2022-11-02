@@ -15,7 +15,7 @@ function! gindent#preset#vim#get() abort
   \     { 'prev': ['^', '\<while\>'] },
   \     { 'prev': ['^', '\<for\>'] },
   \     { 'prev': ['^', '\<function\>'] },
-  \     { 'prev': ['^', '\<augroup\>'] },
+  \     { 'prev': ['^', '\<augroup\>'], 'prev!': ['END', '$'] },
   \     { 'prev': ['^', '\<try\>'] },
   \     { 'prev': ['^', '\<cat\%[ch]\>'] },
   \     { 'prev': ['^', '\<Context\>'] },

@@ -128,12 +128,22 @@ endfunction
 function! s:match(prev_cursor, curr_cursor, prev_text, curr_text, pattern) abort
   let l:matched = v:true
   if l:matched && has_key(a:pattern, 'prev')
-    if a:prev_text !~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s*') : a:pattern.prev)
+    if a:prev_text !~# s:pattern(a:pattern.prev)
+      let l:matched = v:false
+    endif
+  endif
+  if l:matched && has_key(a:pattern, 'prev!')
+    if a:prev_text =~# s:pattern(a:pattern['prev!'])
       let l:matched = v:false
     endif
   endif
   if l:matched && has_key(a:pattern, 'curr')
-    if a:curr_text !~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s*') : a:pattern.curr)
+    if a:curr_text !~# s:pattern(a:pattern.curr)
+      let l:matched = v:false
+    endif
+  endif
+  if l:matched && has_key(a:pattern, 'curr!')
+    if a:curr_text =~# s:pattern(a:pattern['curr!'])
       let l:matched = v:false
     endif
   endif
@@ -162,5 +172,12 @@ endfunction
 "
 function! s:get_one_indent() abort
   return repeat(' ', &shiftwidth ? &shiftwidth : &tabstop)
+endfunction
+
+"
+" s:pattern 
+"
+function s:pattern(pattern) abort
+  return type(a:pattern) == v:t_list ? join(a:pattern, '\s*') : a:pattern
 endfunction
 
