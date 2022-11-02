@@ -16,6 +16,8 @@ function! gindent#preset#vim#get() abort
   \     { 'prev': ['^', '\<for\>'] },
   \     { 'prev': ['^', '\<function\>'] },
   \     { 'prev': ['^', '\<augroup\>'] },
+  \     { 'prev': ['^', '\<try\>'] },
+  \     { 'prev': ['^', '\<cat\%[ch]\>'] },
   \     { 'prev': ['^', '\<Context\>'] },
   \     { 'prev': ['^', '\<It\>'] },
   \   ],
@@ -27,6 +29,8 @@ function! gindent#preset#vim#get() abort
   \     { 'curr': ['^', '\<augroup END\>'] },
   \     { 'curr': ['^', '\<else\>'] },
   \     { 'curr': ['^', '\<elseif\>'] },
+  \     { 'curr': ['^', '\<cat\%[ch]\>'] },
+  \     { 'curr': ['^', '\<endt\%[ry]\>'] },
   \     { 'curr': ['^', '\<End\>'] },
   \   ]
   \ })

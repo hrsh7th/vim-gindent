@@ -1,16 +1,12 @@
 local Position = require('gindent.kit.LSP.Position')
 
----@class gindent.kit.LSP.Range
----@field public start gindent.kit.LSP.Position
----@field public ['end'] gindent.kit.LSP.Position
-
 local Range = {}
 
 ---Return the value is range or not.
 ---@param v any
 ---@return boolean
-function Range.is(range)
-  return type(range) == 'table' and Position.is(range.start) and Position.is(range['end'])
+function Range.is(v)
+  return type(v) == 'table' and Position.is(v.start) and Position.is(v['end'])
 end
 
 ---Return the range is empty or not.
@@ -23,7 +19,7 @@ end
 ---Convert range to utf8 from specified encoding.
 ---@param expr string|integer
 ---@param range gindent.kit.LSP.Range
----@param from_encoding gindent.kit.LSP.Position.Encoding
+---@param from_encoding? gindent.kit.LSP.PositionEncodingKind
 ---@return gindent.kit.LSP.Range
 function Range.to_vim(expr, range, from_encoding)
   return {
@@ -32,5 +28,40 @@ function Range.to_vim(expr, range, from_encoding)
   }
 end
 
-return Range
+---Convert range to utf8 from specified encoding.
+---@param text_start string
+---@param range gindent.kit.LSP.Range
+---@param from_encoding? gindent.kit.LSP.PositionEncodingKind
+---@return gindent.kit.LSP.Range
+function Range.to_utf8(text_start, text_end, range, from_encoding)
+  return {
+    start = Position.to_utf8(text_start, range.start, from_encoding),
+    ['end'] = Position.to_utf8(text_end, range['end'], from_encoding),
+  }
+end
 
+---Convert range to utf16 from specified encoding.
+---@param text_start string
+---@param range gindent.kit.LSP.Range
+---@param from_encoding? gindent.kit.LSP.PositionEncodingKind
+---@return gindent.kit.LSP.Range
+function Range.to_utf16(text_start, text_end, range, from_encoding)
+  return {
+    start = Position.to_utf16(text_start, range.start, from_encoding),
+    ['end'] = Position.to_utf16(text_end, range['end'], from_encoding),
+  }
+end
+
+---Convert range to utf32 from specified encoding.
+---@param text_start string
+---@param range gindent.kit.LSP.Range
+---@param from_encoding? gindent.kit.LSP.PositionEncodingKind
+---@return gindent.kit.LSP.Range
+function Range.to_utf32(text_start, text_end, range, from_encoding)
+  return {
+    start = Position.to_utf32(text_start, range.start, from_encoding),
+    ['end'] = Position.to_utf32(text_end, range['end'], from_encoding),
+  }
+end
+
+return Range

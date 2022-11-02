@@ -1,4 +1,3 @@
-local kit = require('gindent.kit')
 local Highlight = require('gindent.kit.Vim.Highlight')
 
 local Buffer = {}
@@ -40,16 +39,15 @@ end
 
 ---Open buffer.
 ---@param cmd table # The `new` command argument. See :help nvim_parse_cmd()`
----@param range? gindent.kit.Vim.Range
+---@param range? gindent.kit.LSP.Range
 function Buffer.open(cmd, range)
   vim.cmd.new(cmd)
 
   local Range = require('gindent.kit.LSP.Range')
-  if Range.is(range) and not Range.empty(range) then
+  if range and Range.is(range) and not Range.empty(range) then
     vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
     Highlight.blink(range)
   end
 end
 
 return Buffer
-

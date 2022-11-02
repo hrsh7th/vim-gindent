@@ -76,7 +76,7 @@ function Config:create_setup_interface()
     ---@param config gindent.kit.Config.Schema
     buffer = function(_, bufnr, config)
       self:buffer(bufnr, config)
-    end
+    end,
   })
 end
 
@@ -88,7 +88,7 @@ function Config:get()
   return self._cache:ensure({
     self._global.revision or 0,
     (self._buffer[bufnr] or {}).revision or 0,
-    (self._filetype[filetype] or {}).revision or 0
+    (self._filetype[filetype] or {}).revision or 0,
   }, function()
     local config = self._default
     config = kit.merge(self._global, config)

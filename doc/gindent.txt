@@ -53,13 +53,17 @@ gindent#register_preset(filetype, preset)~
 
     - `prev`: The pattern or array of patterns for prev line.
     - `curr`: The pattern or array of patterns for curr line.
-    - `ignore_syntax`: The array of syntax group name for ignoring this pattern.
-    
+    - `ignore_syntax`: The array of syntax group name for ignoring this pattern for prev/curr line.
+    - `ignore_syntax_prev`: The array of syntax group name for ignoring this pattern for previous line.
+    - `ignore_syntax_curr`: The array of syntax group name for ignoring this pattern for current line.
+
   NOTE: The `manual-pattern` is currently can have the following properties. 
 
     - `prev`: The pattern or array of patterns for prev line.
     - `curr`: The pattern or array of patterns for curr line.
-    - `ignore_syntax`: The array of syntax group name for ignoring this pattern.
+    - `ignore_syntax`: The array of syntax group name for ignoring this pattern for prev/curr line.
+    - `ignore_syntax_prev`: The array of syntax group name for ignoring this pattern for previous line.
+    - `ignore_syntax_curr`: The array of syntax group name for ignoring this pattern for current line.
     - `func`: The function that should return number of indent count.
 
 

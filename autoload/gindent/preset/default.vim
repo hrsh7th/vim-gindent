@@ -10,7 +10,7 @@ function! gindent#preset#default#get() abort
   \     { 'prev': ['\V{\m', '$'] },
   \     { 'prev': ['\V(\m', '$'] },
   \     { 'prev': ['\V[\m', '$'] },
-  \     { 'prev': ['\V<\m', '.*', '$'] },
+  \     { 'prev': ['\V<\m', '[^>]\{-}', '$'] },
   \   ],
   \   'dedent_patterns': [
   \     { 'curr': ['^', '\V}\m'] },

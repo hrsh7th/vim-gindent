@@ -1,6 +1,6 @@
 local TreeSitter = {}
 
----@alias gindent.kit.Lua.TreeSitter.VisitStatus 'stop'|'skip'
+---@alias gindent.kit.Vim.TreeSitter.VisitStatus 'stop'|'skip'
 TreeSitter.VisitStatus = {}
 TreeSitter.VisitStatus.Stop = 'stop'
 TreeSitter.VisitStatus.Skip = 'skip'

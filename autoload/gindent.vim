@@ -40,7 +40,9 @@ function! gindent#indentexpr() abort
   endif
 
   let l:curr_lnum = v:lnum
+  let l:curr_cursor = [l:curr_lnum, col('.')]
   let l:prev_lnum = s:prev_lnum(l:curr_lnum, l:preset)
+  let l:prev_cursor = [l:prev_lnum, strlen(getline(l:prev_lnum))]
   let l:curr_line = getline(l:curr_lnum)
   let l:prev_line = getline(l:prev_lnum)
   let l:curr_indent_count = s:indent_count(l:curr_lnum)
@@ -48,7 +50,7 @@ function! gindent#indentexpr() abort
 
   " manual_patterns.
   for l:pattern in get(l:preset, 'manual_patterns', [])
-    if s:match(l:prev_line, l:curr_line, l:pattern)
+    if s:match(l:prev_cursor, l:curr_cursor, l:prev_line, l:curr_line, l:pattern)
       return l:pattern.func({
       \   'prev_indent_count': l:prev_indent_count,
       \   'curr_indent_count': l:curr_indent_count,
@@ -58,7 +60,7 @@ function! gindent#indentexpr() abort
 
   " indent_patterns.
   for l:pattern in get(l:preset, 'indent_patterns', [])
-    if s:match(l:prev_line, l:curr_line, l:pattern)
+    if s:match(l:prev_cursor, l:curr_cursor, l:prev_line, l:curr_line, l:pattern)
       let l:prev_indent_count += shiftwidth()
       break
     endif
@@ -66,12 +68,8 @@ function! gindent#indentexpr() abort
 
   " dedent_patterns.
   for l:pattern in get(l:preset, 'dedent_patterns', [])
-    if s:match(l:prev_line, l:curr_line, l:pattern)
-      if l:curr_indent_count <= l:prev_indent_count
-        let l:prev_indent_count -= shiftwidth()
-      else
-        let l:prev_indent_count = l:curr_indent_count
-      endif
+    if s:match(l:prev_cursor, l:curr_cursor, l:prev_line, l:curr_line, l:pattern)
+      let l:prev_indent_count -= shiftwidth()
       break
     endif
   endfor
@@ -127,22 +125,33 @@ endfunction
 "
 " s:match 
 "
-function! s:match(prev_text, curr_text, pattern) abort
+function! s:match(prev_cursor, curr_cursor, prev_text, curr_text, pattern) abort
   let l:matched = v:true
-  if has_key(a:pattern, 'prev')
-    let l:matched = l:matched && a:prev_text =~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s*') : a:pattern.prev)
-    if l:matched && has_key(a:pattern, 'ignore_syntax')
-      if gindent#syntax#in(a:pattern.ignore_syntax, s:prev_cursor())
-        let l:matched = v:false
-      endif
+  if l:matched && has_key(a:pattern, 'prev')
+    if a:prev_text !~# (type(a:pattern.prev) == v:t_list ? join(a:pattern.prev, '\s*') : a:pattern.prev)
+      let l:matched = v:false
     endif
   endif
-  if has_key(a:pattern, 'curr')
-    let l:matched = l:matched && a:curr_text =~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s*') : a:pattern.curr)
-    if l:matched && has_key(a:pattern, 'ignore_syntax')
-      if gindent#syntax#in(a:pattern.ignore_syntax, s:curr_cursor())
-        let l:matched = v:false
-      endif
+  if l:matched && has_key(a:pattern, 'curr')
+    if a:curr_text !~# (type(a:pattern.curr) == v:t_list ? join(a:pattern.curr, '\s*') : a:pattern.curr)
+      let l:matched = v:false
+    endif
+  endif
+  if l:matched && has_key(a:pattern, 'ignore_syntax')
+    if gindent#syntax#in(a:pattern.ignore_syntax, a:prev_cursor)
+      let l:matched = v:false
+    elseif gindent#syntax#in(a:pattern.ignore_syntax, a:curr_cursor)
+      let l:matched = v:false
+    endif
+  endif
+  if l:matched && has_key(a:pattern, 'ignore_syntax_prev')
+    if gindent#syntax#in(a:pattern.ignore_syntax_prev, a:prev_cursor)
+      let l:matched = v:false
+    endif
+  endif
+  if l:matched && has_key(a:pattern, 'ignore_syntax_curr')
+    if gindent#syntax#in(a:pattern.ignore_syntax_curr, a:curr_cursor)
+      let l:matched = v:false
     endif
   endif
   return l:matched
@@ -153,21 +162,5 @@ endfunction
 "
 function! s:get_one_indent() abort
   return repeat(' ', &shiftwidth ? &shiftwidth : &tabstop)
-endfunction
-
-
-"
-" s:curr_cursor
-"
-function! s:curr_cursor() abort
-  return getcurpos()[1:2]
-endfunction
-
-"
-" s:prev_cursor
-"
-function! s:prev_cursor() abort
-  let l:prev_lnum = max([line('.') - 1, 1])
-  return [l:prev_lnum, strlen(getline(l:prev_lnum)) + 1]
 endfunction
 
