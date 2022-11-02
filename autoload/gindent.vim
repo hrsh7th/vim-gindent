@@ -150,27 +150,34 @@ function! s:match(prev_cursor, curr_cursor, prev_text, curr_text, pattern) abort
       let l:matched = v:false
     endif
   endif
-  if l:matched && has_key(a:pattern, 'prev_syntax')
-    if !gindent#syntax#in(a:pattern['prev_syntax'], a:prev_cursor)
-      let l:matched = v:false
-    endif
-  endif
-  if l:matched && has_key(a:pattern, 'curr_syntax')
-    if !gindent#syntax#in(a:pattern['curr_syntax'], a:curr_cursor)
-      let l:matched = v:false
-    endif
-  endif
-  if l:matched && has_key(a:pattern, 'prev_syntax!')
-    if gindent#syntax#in(a:pattern['prev_syntax!'], a:prev_cursor)
-      let l:matched = v:false
-    endif
-  endif
-  if l:matched && has_key(a:pattern, 'curr_syntax!')
-    if gindent#syntax#in(a:pattern['curr_syntax!'], a:curr_cursor)
-      let l:matched = v:false
-    endif
-  endif
+  for l:dir in ['prev', 'curr']
+    if !l:matched | break | endif
+    for l:negate in [v:false, v:true]
+      if !l:matched | break | endif
+      for l:head in [v:false, v:true]
+        if !l:matched | break | endif
+        let l:key = printf('%s_syntax%s%s', l:dir, l:negate ? '!' : '', l:head ? '^' : '')
+        if has_key(a:pattern, l:key)
+          if !s:match_syntax(a:prev_cursor, a:curr_cursor, a:pattern[l:key], l:dir, l:negate, l:head)
+            let l:matched = v:false
+          endif
+        endif
+      endfor
+    endfor
+  endfor
   return l:matched
+endfunction
+
+"
+" s:match_syntax
+"
+function s:match_syntax(prev_cursor, curr_cursor, syntaxes, dir, negate, head) abort
+  let l:cursor = a:dir ==# 'curr' ? a:curr_cursor : a:prev_cursor
+  if a:head
+    let l:cursor = [l:cursor[0], strlen(matchstr(getline(l:cursor[0]), '^%s*')) + 1]
+  endif
+  let l:contains = gindent#syntax#in(a:syntaxes, a:dir ==# 'curr' ? a:curr_cursor : a:prev_cursor)
+  return a:negate ? !l:contains : l:contains
 endfunction
 
 "

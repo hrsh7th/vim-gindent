@@ -6,11 +6,9 @@ function! gindent#preset#vim#get() abort
   \     '\',
   \   ],
   \   'manual_patterns': [
-  \     { 'curr': ['^', '\'], 'func': { ctx -> ctx.prev_indent_count + g:vim_indent_cont } },
-  \     { 'curr': ['^', '\w\+', '$'], 'curr_syntax': ['vimEmbedError', '@endmarker'], 'func': { ctx -> 0 } },
-  \   ],
-  \   'continue_patterns': [
-  \     { 'prev': ['^', '\w\+', '$'], 'prev_syntax': ['vimEmbedError', '@endmarker'] },
+  \     { 'prev': ['^', '\\'], 'func': { ctx -> ctx.prev_indent_count } },
+  \     { 'curr': ['^', '\\'], 'func': { ctx -> ctx.prev_indent_count + g:vim_indent_cont } },
+  \     { 'curr': ['^', '\w\+', '$'], 'curr_syntax': ['@endmarker'], 'func': { ctx -> 0 } },
   \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>'] },

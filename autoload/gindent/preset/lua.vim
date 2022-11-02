@@ -13,10 +13,6 @@ function! gindent#preset#lua#get() abort
   \     { 'prev': ['^', '\<while\>.\{-}\<do\>', '$'] },
   \     { 'prev': ['\<function\>', '(.\{-})', '$'] },
   \     { 'prev': ['\<function\>', '\w\+', '\%([\.:]\w\+\)\?', '(.\{-})', '$'] },
-  \     { 'prev': ['\.', '$'], 'prev_syntax!': ['Comment', '@comment'] },
-  \     { 'prev': ['\:', '$'], 'prev_syntax!': ['Comment', '@comment'] },
-  \     { 'curr': ['^', '\.'], 'prev_syntax!': ['Comment', '@comment'] },
-  \     { 'curr': ['^', '\:'], 'prev_syntax!': ['Comment', '@comment'] },
   \   ],
   \   'dedent_patterns': [
   \     { 'curr': ['^', '\<end\>'] },

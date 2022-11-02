@@ -53,24 +53,29 @@ gindent#register_preset(filetype, preset)~
 
     - `prev`: The pattern or array of patterns for prev line.
     - `prev!`: The pattern or array of patterns for prev line (negated).
-    - `prev_syntax`: The array of syntax group name for ignoring this pattern for previous line.
-    - `prev_syntax!`: The array of syntax group name for ignoring this pattern for previous line (negated).
     - `curr`: The pattern or array of patterns for curr line.
     - `curr!`: The pattern or array of patterns for curr line (negated).
-    - `curr_syntax`: The array of syntax group name for ignoring this pattern for current line.
-    - `curr_syntax!`: The array of syntax group name for ignoring this pattern for current line (negated).
 
   NOTE: The `manual-pattern` is currently can have the following properties. 
 
     - `prev`: The pattern or array of patterns for prev line.
     - `prev!`: The pattern or array of patterns for prev line (negated).
-    - `prev_syntax`: The array of syntax group name for ignoring this pattern for previous line.
-    - `prev_syntax!`: The array of syntax group name for ignoring this pattern for previous line (negated).
     - `curr`: The pattern or array of patterns for curr line.
     - `curr!`: The pattern or array of patterns for curr line (negated).
-    - `curr_syntax`: The array of syntax group name for ignoring this pattern for current line.
-    - `curr_syntax!`: The array of syntax group name for ignoring this pattern for current line (negated).
     - `func`: The function that should return number of indent count.
+
+  NOTE: The all patterns can have the `syntax-specifier-keys`.
+    1. The available key name are the following.
+      - prev_syntax
+      - prev_syntax!
+      - prev_syntax^
+      - prev_syntax!^
+      - curr_syntax
+      - curr_syntax!
+      - curr_syntax^
+      - curr_syntax!^
+    2. The `!` is meaning the negate.
+    3. The `^` is meaning should use head syntax group.
 
 
   See ../autoload/gindent/preset/vim.vim
