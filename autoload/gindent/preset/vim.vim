@@ -6,7 +6,8 @@ function! gindent#preset#vim#get() abort
   \     '\',
   \   ],
   \   'manual_patterns': [
-  \     { 'curr': ['^', '\'], 'func': { ctx -> ctx.prev_indent_count + g:vim_indent_cont } }
+  \     { 'curr': ['^', '\'], 'func': { ctx -> ctx.prev_indent_count + g:vim_indent_cont } },
+  \     { 'curr': ['^', '\w\+', '$'], 'syntax': ['@endmarker'], 'func': { ctx -> 0 } },
   \   ],
   \   'indent_patterns': [
   \     { 'prev': ['^', '\<if\>'] },

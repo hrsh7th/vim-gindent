@@ -52,6 +52,7 @@ function! gindent#indentexpr() abort
   for l:pattern in get(l:preset, 'manual_patterns', [])
     if s:match(l:prev_cursor, l:curr_cursor, l:prev_line, l:curr_line, l:pattern)
       return l:pattern.func({
+      \   'one_indent_count': strlen(s:get_one_indent()),
       \   'prev_indent_count': l:prev_indent_count,
       \   'curr_indent_count': l:curr_indent_count,
       \ })
@@ -147,20 +148,23 @@ function! s:match(prev_cursor, curr_cursor, prev_text, curr_text, pattern) abort
       let l:matched = v:false
     endif
   endif
-  if l:matched && has_key(a:pattern, 'ignore_syntax')
-    if gindent#syntax#in(a:pattern.ignore_syntax, a:prev_cursor)
-      let l:matched = v:false
-    elseif gindent#syntax#in(a:pattern.ignore_syntax, a:curr_cursor)
+  if l:matched && has_key(a:pattern, 'prev_syntax')
+    if !gindent#syntax#in(a:pattern['prev_syntax'], a:prev_cursor)
       let l:matched = v:false
     endif
   endif
-  if l:matched && has_key(a:pattern, 'ignore_syntax_prev')
-    if gindent#syntax#in(a:pattern.ignore_syntax_prev, a:prev_cursor)
+  if l:matched && has_key(a:pattern, 'curr_syntax')
+    if !gindent#syntax#in(a:pattern['curr_syntax'], a:curr_cursor)
       let l:matched = v:false
     endif
   endif
-  if l:matched && has_key(a:pattern, 'ignore_syntax_curr')
-    if gindent#syntax#in(a:pattern.ignore_syntax_curr, a:curr_cursor)
+  if l:matched && has_key(a:pattern, 'prev_syntax!')
+    if gindent#syntax#in(a:pattern['prev_syntax!'], a:prev_cursor)
+      let l:matched = v:false
+    endif
+  endif
+  if l:matched && has_key(a:pattern, 'curr_syntax!')
+    if gindent#syntax#in(a:pattern['curr_syntax!'], a:curr_cursor)
       let l:matched = v:false
     endif
   endif
