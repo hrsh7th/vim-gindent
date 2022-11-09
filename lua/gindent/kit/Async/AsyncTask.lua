@@ -1,8 +1,9 @@
 local Lua = require('gindent.kit.Lua')
 
----@class gindent.kit.Async.AsyncTask<T>: { value: T }
----@field private value T
+---@class gindent.kit.Async.AsyncTask
+---@field private value any
 ---@field private status gindent.kit.Async.AsyncTask.Status
+---@field private synced boolean
 ---@field private chained boolean
 ---@field private children (fun(): any)[]
 local AsyncTask = {}
@@ -17,7 +18,7 @@ AsyncTask.Status.Rejected = 2
 ---Handle unhandled rejection.
 ---@param err any
 function AsyncTask.on_unhandled_rejection(err)
-  error(err)
+  error('AsyncTask.on_unhandled_rejection: ' .. err)
 end
 
 ---Return the value is AsyncTask or not.
@@ -36,14 +37,14 @@ function AsyncTask.all(tasks)
     local count = 0
     for i, task in ipairs(tasks) do
       AsyncTask.resolve(task)
-        :next(function(value)
-          values[i] = value
-          count = count + 1
-          if #tasks == count then
-            resolve(values)
-          end
-        end)
-        :catch(reject)
+          :next(function(value)
+            values[i] = value
+            count = count + 1
+            if #tasks == count then
+              resolve(values)
+            end
+          end)
+          :catch(reject)
     end
   end)
 end
@@ -81,7 +82,7 @@ function AsyncTask.new(runner)
 
   self.gc = Lua.gc(function()
     if self.status == AsyncTask.Status.Rejected then
-      if not self.chained then
+      if not self.chained and not self.synced then
         AsyncTask.on_unhandled_rejection(self.value)
       end
     end
@@ -89,28 +90,27 @@ function AsyncTask.new(runner)
 
   self.value = nil
   self.status = AsyncTask.Status.Pending
+  self.synced = false
   self.chained = false
   self.children = {}
-  local ok, err = pcall(function()
-    runner(function(res)
-      if self.status ~= AsyncTask.Status.Pending then
-        return
-      end
-      self.status = AsyncTask.Status.Fulfilled
-      self.value = res
-      for _, c in ipairs(self.children) do
-        c()
-      end
-    end, function(err)
-      if self.status ~= AsyncTask.Status.Pending then
-        return
-      end
-      self.status = AsyncTask.Status.Rejected
-      self.value = err
-      for _, c in ipairs(self.children) do
-        c()
-      end
-    end)
+  local ok, err = pcall(runner, function(res)
+    if self.status ~= AsyncTask.Status.Pending then
+      return
+    end
+    self.status = AsyncTask.Status.Fulfilled
+    self.value = res
+    for _, c in ipairs(self.children) do
+      c()
+    end
+  end, function(err)
+    if self.status ~= AsyncTask.Status.Pending then
+      return
+    end
+    self.status = AsyncTask.Status.Rejected
+    self.value = err
+    for _, c in ipairs(self.children) do
+      c()
+    end
   end)
   if not ok then
     self.status = AsyncTask.Status.Rejected
@@ -127,9 +127,11 @@ end
 ---@param timeout? number
 ---@return any
 function AsyncTask:sync(timeout)
+  self.synced = true
+
   vim.wait(timeout or 24 * 60 * 60 * 1000, function()
     return self.status ~= AsyncTask.Status.Pending
-  end, 0)
+  end, 10)
   if self.status == AsyncTask.Status.Rejected then
     error(self.value)
   end
@@ -162,28 +164,25 @@ end
 ---@return gindent.kit.Async.AsyncTask
 function AsyncTask:_dispatch(on_fulfilled, on_rejected)
   self.chained = true
+
   local function dispatch(resolve, reject)
-    if self.status == AsyncTask.Status.Fulfilled then
-      local res = on_fulfilled(self.value)
-      if AsyncTask.is(res) then
-        res:next(resolve, reject)
-      else
-        resolve(res)
-      end
+    local on_next = self.status == AsyncTask.Status.Fulfilled and on_fulfilled or on_rejected
+    local res = on_next(self.value)
+    if AsyncTask.is(res) then
+      res:next(resolve):catch(reject)
     else
-      local res = on_rejected(self.value)
-      if AsyncTask.is(res) then
-        res:next(resolve, reject)
-      else
-        resolve(res)
-      end
+      resolve(res)
     end
   end
 
   if self.status == AsyncTask.Status.Pending then
     return AsyncTask.new(function(resolve, reject)
       table.insert(self.children, function()
-        dispatch(resolve, reject)
+        self.chained = true
+        local ok, err = pcall(dispatch, resolve, reject)
+        if not ok then
+          reject(err)
+        end
       end)
     end)
   end

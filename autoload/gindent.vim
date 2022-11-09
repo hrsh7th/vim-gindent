@@ -116,13 +116,7 @@ endfunction
 " s:indent
 "
 function! s:indent_count(lnum) abort
-  let l:one_indent = s:get_one_indent()
-  let l:total_indent = substitute(matchstr(getline(a:lnum), '^\s*'), '\t', l:one_indent, 'g')
-  let l:rest_indent = l:total_indent
-  while strlen(l:rest_indent) >= strlen(l:one_indent)
-    let l:rest_indent = strpart(l:rest_indent, strlen(l:one_indent))
-  endwhile
-  return strlen(l:total_indent) - strlen(l:rest_indent)
+  return strlen(substitute(matchstr(getline(a:lnum), '^\s*'), '\t', s:get_one_indent(), 'g'))
 endfunction
 
 "

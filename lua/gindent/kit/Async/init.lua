@@ -7,7 +7,8 @@ _G.__kit__.Async.threads = _G.__kit__.Async.threads or {}
 local Async = {}
 
 ---Run async function immediately.
----@param runner fun()
+---@generic T: fun(...): gindent.kit.Async.AsyncTask
+---@param runner T
 ---@param ... any
 ---@return gindent.kit.Async.AsyncTask
 function Async.run(runner, ...)
@@ -15,21 +16,25 @@ function Async.run(runner, ...)
 end
 
 ---Create async function.
----@param runner fun()
----@return fun(): gindent.kit.Async.AsyncTask
+---@generic T: fun(...): gindent.kit.Async.AsyncTask
+---@param runner T
+---@return T
 function Async.async(runner)
   return function(...)
     local args = { ... }
+    local thread = coroutine.create(runner)
     return AsyncTask.new(function(resolve, reject)
-      local thread = coroutine.create(runner)
       _G.__kit__.Async.threads[thread] = true
+
       local function next_step(ok, v)
         if coroutine.status(thread) == 'dead' then
           _G.__kit__.Async.threads[thread] = nil
           if not ok then
-            return reject(v)
+            AsyncTask.reject(v):next(resolve):catch(reject)
+          else
+            AsyncTask.resolve(v):next(resolve):catch(reject)
           end
-          return AsyncTask.resolve(v):next(resolve):catch(reject)
+          return
         end
 
         AsyncTask.resolve(v)
@@ -40,6 +45,7 @@ function Async.async(runner)
             next_step(coroutine.resume(thread, ...))
           end)
       end
+
       next_step(coroutine.resume(thread, unpack(args)))
     end)
   end
