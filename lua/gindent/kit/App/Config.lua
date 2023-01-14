@@ -1,7 +1,6 @@
 local kit = require('gindent.kit')
 local Cache = require('gindent.kit.App.Cache')
 
-
 ---@alias gindent.kit.App.Config.SchemaInternal gindent.kit.App.Config.Schema|{ revision: integer }
 
 ---@class gindent.kit.App.Config
@@ -66,9 +65,9 @@ function Config:get()
   local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
   local bufnr = vim.api.nvim_get_current_buf()
   return self._cache:ensure({
-    self._global.revision or 0,
-    (self._buffer[bufnr] or {}).revision or 0,
-    (self._filetype[filetype] or {}).revision or 0,
+    tostring(self._global.revision or 0),
+    tostring((self._buffer[bufnr] or {}).revision or 0),
+    tostring((self._filetype[filetype] or {}).revision or 0),
   }, function()
     local config = self._default
     config = kit.merge(self._global, config)

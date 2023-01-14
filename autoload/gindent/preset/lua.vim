@@ -11,6 +11,7 @@ function! gindent#preset#lua#get() abort
   \     { 'prev': ['^', '\<else\>', '$'] },
   \     { 'prev': ['^', '\<for\>.\{-}\<do\>', '$'] },
   \     { 'prev': ['^', '\<while\>.\{-}\<do\>', '$'] },
+  \     { 'prev': ['^', '\<repeat\>', '$'] },
   \     { 'prev': ['\<function\>', '(.\{-})', '$'] },
   \     { 'prev': ['\<function\>', '\w\+', '\%([\.:]\w\+\)\?', '(.\{-})', '$'] },
   \   ],
@@ -18,6 +19,7 @@ function! gindent#preset#lua#get() abort
   \     { 'curr': ['^', '\<end\>'] },
   \     { 'curr': ['^', '\<elseif\>.\{-}\<then\>', '$'] },
   \     { 'curr': ['^', '\<else\>', '$'] },
+  \     { 'curr': ['^', '\<until\>', '$'] },
   \   ]
   \ })
 endfunction

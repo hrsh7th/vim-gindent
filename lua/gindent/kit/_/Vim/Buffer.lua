@@ -1,4 +1,4 @@
-local Highlight = require('gindent.kit.Vim.Highlight')
+local Highlight = require('gindent.kit._.Vim.Highlight')
 
 local Buffer = {}
 

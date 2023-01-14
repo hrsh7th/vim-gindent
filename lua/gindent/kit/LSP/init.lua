@@ -323,17 +323,17 @@ LSP.TokenFormat = {
   Relative = 'relative',
 }
 
----@class gindent.kit.LSP.ImplementationParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.ImplementationParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 
 ---@class gindent.kit.LSP.Location
 ---@field public uri string
 ---@field public range gindent.kit.LSP.Range
 
----@class gindent.kit.LSP.ImplementationRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.ImplementationRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.ImplementationOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.TypeDefinitionParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.TypeDefinitionParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 
----@class gindent.kit.LSP.TypeDefinitionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.TypeDefinitionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.TypeDefinitionOptions, gindent.kit.LSP.StaticRegistrationOptions
 
 ---@class gindent.kit.LSP.WorkspaceFolder
 ---@field public uri string The associated URI for this workspace folder.
@@ -348,16 +348,16 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.PartialResultParams
 ---@field public partialResultToken? gindent.kit.LSP.ProgressToken An optional token that a server can use to report partial results (e.g. streaming) to<br>the client.
 
----@class gindent.kit.LSP.DocumentColorParams
+---@class gindent.kit.LSP.DocumentColorParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 
 ---@class gindent.kit.LSP.ColorInformation
 ---@field public range gindent.kit.LSP.Range The range in the document where this color appears.
 ---@field public color gindent.kit.LSP.Color The actual color value for this color range.
 
----@class gindent.kit.LSP.DocumentColorRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentColorRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentColorOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.ColorPresentationParams
+---@class gindent.kit.LSP.ColorPresentationParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public color gindent.kit.LSP.Color The color to request presentations for.
 ---@field public range gindent.kit.LSP.Range The range where the color would be inserted. Serves as a context.
@@ -373,7 +373,7 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.TextDocumentRegistrationOptions
 ---@field public documentSelector (gindent.kit.LSP.DocumentSelector | nil) A document selector to identify the scope of the registration. If set to null<br>the document selector provided on the client side will be used.
 
----@class gindent.kit.LSP.FoldingRangeParams
+---@class gindent.kit.LSP.FoldingRangeParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 
 ---@class gindent.kit.LSP.FoldingRange
@@ -384,13 +384,13 @@ LSP.TokenFormat = {
 ---@field public kind? gindent.kit.LSP.FoldingRangeKind Describes the kind of the folding range such as `comment' or 'region'. The kind<br>is used to categorize folding ranges and used by commands like 'Fold all comments'.<br>See [FoldingRangeKind](#FoldingRangeKind) for an enumeration of standardized kinds.
 ---@field public collapsedText? string The text that the client should show when the specified range is<br>collapsed. If not defined or not supported by the client, a default<br>will be chosen by the client.<br><br>@since 3.17.0
 
----@class gindent.kit.LSP.FoldingRangeRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.FoldingRangeRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.FoldingRangeOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.DeclarationParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.DeclarationParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 
----@class gindent.kit.LSP.DeclarationRegistrationOptions : gindent.kit.LSP.DeclarationOptions
+---@class gindent.kit.LSP.DeclarationRegistrationOptions : gindent.kit.LSP.DeclarationOptions, gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.SelectionRangeParams
+---@class gindent.kit.LSP.SelectionRangeParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public positions gindent.kit.LSP.Position[] The positions inside the text document.
 
@@ -398,7 +398,7 @@ LSP.TokenFormat = {
 ---@field public range gindent.kit.LSP.Range The [range](#Range) of this selection range.
 ---@field public parent? gindent.kit.LSP.SelectionRange The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
 
----@class gindent.kit.LSP.SelectionRangeRegistrationOptions : gindent.kit.LSP.SelectionRangeOptions
+---@class gindent.kit.LSP.SelectionRangeRegistrationOptions : gindent.kit.LSP.SelectionRangeOptions, gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.StaticRegistrationOptions
 
 ---@class gindent.kit.LSP.WorkDoneProgressCreateParams
 ---@field public token gindent.kit.LSP.ProgressToken The token to be used to report progress.
@@ -406,7 +406,7 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.WorkDoneProgressCancelParams
 ---@field public token gindent.kit.LSP.ProgressToken The token to be used to report progress.
 
----@class gindent.kit.LSP.CallHierarchyPrepareParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.CallHierarchyPrepareParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams
 
 ---@class gindent.kit.LSP.CallHierarchyItem
 ---@field public name string The name of this item.
@@ -418,23 +418,23 @@ LSP.TokenFormat = {
 ---@field public selectionRange gindent.kit.LSP.Range The range that should be selected and revealed when this symbol is being picked, e.g. the name of a function.<br>Must be contained by the [`range`](#CallHierarchyItem.range).
 ---@field public data? gindent.kit.LSP.LSPAny A data entry field that is preserved between a call hierarchy prepare and<br>incoming calls or outgoing calls requests.
 
----@class gindent.kit.LSP.CallHierarchyRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.CallHierarchyRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.CallHierarchyOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.CallHierarchyIncomingCallsParams
+---@class gindent.kit.LSP.CallHierarchyIncomingCallsParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public item gindent.kit.LSP.CallHierarchyItem
 
 ---@class gindent.kit.LSP.CallHierarchyIncomingCall
 ---@field public from gindent.kit.LSP.CallHierarchyItem The item that makes the call.
 ---@field public fromRanges gindent.kit.LSP.Range[] The ranges at which the calls appear. This is relative to the caller<br>denoted by [`this.from`](#CallHierarchyIncomingCall.from).
 
----@class gindent.kit.LSP.CallHierarchyOutgoingCallsParams
+---@class gindent.kit.LSP.CallHierarchyOutgoingCallsParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public item gindent.kit.LSP.CallHierarchyItem
 
 ---@class gindent.kit.LSP.CallHierarchyOutgoingCall
 ---@field public to gindent.kit.LSP.CallHierarchyItem The item that is called.
 ---@field public fromRanges gindent.kit.LSP.Range[] The range at which this item is called. This is the range relative to the caller, e.g the item<br>passed to [`provideCallHierarchyOutgoingCalls`](#CallHierarchyItemProvider.provideCallHierarchyOutgoingCalls)<br>and not [`this.to`](#CallHierarchyOutgoingCall.to).
 
----@class gindent.kit.LSP.SemanticTokensParams
+---@class gindent.kit.LSP.SemanticTokensParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 
 ---@class gindent.kit.LSP.SemanticTokens
@@ -444,9 +444,9 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.SemanticTokensPartialResult
 ---@field public data integer[]
 
----@class gindent.kit.LSP.SemanticTokensRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.SemanticTokensRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.SemanticTokensOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.SemanticTokensDeltaParams
+---@class gindent.kit.LSP.SemanticTokensDeltaParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public previousResultId string The result id of a previous response. The result Id can either point to a full response<br>or a delta response depending on what was received last.
 
@@ -457,7 +457,7 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.SemanticTokensDeltaPartialResult
 ---@field public edits gindent.kit.LSP.SemanticTokensEdit[]
 
----@class gindent.kit.LSP.SemanticTokensRangeParams
+---@class gindent.kit.LSP.SemanticTokensRangeParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public range gindent.kit.LSP.Range The range the semantic tokens are requested for.
 
@@ -470,13 +470,13 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.ShowDocumentResult
 ---@field public success boolean A boolean indicating if the show was successful.
 
----@class gindent.kit.LSP.LinkedEditingRangeParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.LinkedEditingRangeParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams
 
 ---@class gindent.kit.LSP.LinkedEditingRanges
 ---@field public ranges gindent.kit.LSP.Range[] A list of ranges that can be edited together. The ranges must have<br>identical length and contain identical text content. The ranges cannot overlap.
 ---@field public wordPattern? string An optional word pattern (regular expression) that describes valid contents for<br>the given ranges. If no pattern is provided, the client configuration's word<br>pattern will be used.
 
----@class gindent.kit.LSP.LinkedEditingRangeRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.LinkedEditingRangeRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.LinkedEditingRangeOptions, gindent.kit.LSP.StaticRegistrationOptions
 
 ---@class gindent.kit.LSP.CreateFilesParams
 ---@field public files gindent.kit.LSP.FileCreate[] An array of all files/folders created in this operation.
@@ -495,7 +495,7 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.DeleteFilesParams
 ---@field public files gindent.kit.LSP.FileDelete[] An array of all files/folders deleted in this operation.
 
----@class gindent.kit.LSP.MonikerParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.MonikerParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 
 ---@class gindent.kit.LSP.Moniker
 ---@field public scheme string The scheme of the moniker. For example tsc or .Net
@@ -503,9 +503,9 @@ LSP.TokenFormat = {
 ---@field public unique gindent.kit.LSP.UniquenessLevel The scope in which the moniker is unique
 ---@field public kind? gindent.kit.LSP.MonikerKind The moniker kind if known.
 
----@class gindent.kit.LSP.MonikerRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.MonikerRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.MonikerOptions
 
----@class gindent.kit.LSP.TypeHierarchyPrepareParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.TypeHierarchyPrepareParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams
 
 ---@class gindent.kit.LSP.TypeHierarchyItem
 ---@field public name string The name of this item.
@@ -517,22 +517,22 @@ LSP.TokenFormat = {
 ---@field public selectionRange gindent.kit.LSP.Range The range that should be selected and revealed when this symbol is being<br>picked, e.g. the name of a function. Must be contained by the<br>[`range`](#TypeHierarchyItem.range).
 ---@field public data? gindent.kit.LSP.LSPAny A data entry field that is preserved between a type hierarchy prepare and<br>supertypes or subtypes requests. It could also be used to identify the<br>type hierarchy in the server, helping improve the performance on<br>resolving supertypes and subtypes.
 
----@class gindent.kit.LSP.TypeHierarchyRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.TypeHierarchyRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.TypeHierarchyOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.TypeHierarchySupertypesParams
+---@class gindent.kit.LSP.TypeHierarchySupertypesParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public item gindent.kit.LSP.TypeHierarchyItem
 
----@class gindent.kit.LSP.TypeHierarchySubtypesParams
+---@class gindent.kit.LSP.TypeHierarchySubtypesParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public item gindent.kit.LSP.TypeHierarchyItem
 
----@class gindent.kit.LSP.InlineValueParams
+---@class gindent.kit.LSP.InlineValueParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public range gindent.kit.LSP.Range The document range for which inline values should be computed.
 ---@field public context gindent.kit.LSP.InlineValueContext Additional information about the context in which inline values were<br>requested.
 
----@class gindent.kit.LSP.InlineValueRegistrationOptions : gindent.kit.LSP.InlineValueOptions
+---@class gindent.kit.LSP.InlineValueRegistrationOptions : gindent.kit.LSP.InlineValueOptions, gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.InlayHintParams
+---@class gindent.kit.LSP.InlayHintParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public range gindent.kit.LSP.Range The document range for which inlay hints should be computed.
 
@@ -546,9 +546,9 @@ LSP.TokenFormat = {
 ---@field public paddingRight? boolean Render padding after the hint.<br><br>Note: Padding should use the editor's background color, not the<br>background color of the hint itself. That means padding can be used<br>to visually align/separate an inlay hint.
 ---@field public data? gindent.kit.LSP.LSPAny A data entry field that is preserved on an inlay hint between<br>a `textDocument/inlayHint` and a `inlayHint/resolve` request.
 
----@class gindent.kit.LSP.InlayHintRegistrationOptions : gindent.kit.LSP.InlayHintOptions
+---@class gindent.kit.LSP.InlayHintRegistrationOptions : gindent.kit.LSP.InlayHintOptions, gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.DocumentDiagnosticParams
+---@class gindent.kit.LSP.DocumentDiagnosticParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 ---@field public identifier? string The additional identifier  provided during registration.
 ---@field public previousResultId? string The result id of a previous response if provided.
@@ -559,9 +559,9 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.DiagnosticServerCancellationData
 ---@field public retriggerRequest boolean
 
----@class gindent.kit.LSP.DiagnosticRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DiagnosticRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DiagnosticOptions, gindent.kit.LSP.StaticRegistrationOptions
 
----@class gindent.kit.LSP.WorkspaceDiagnosticParams
+---@class gindent.kit.LSP.WorkspaceDiagnosticParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public identifier? string The additional identifier provided during registration.
 ---@field public previousResultIds gindent.kit.LSP.PreviousResultId[] The currently known diagnostic reports with their<br>previous result ids.
 
@@ -592,7 +592,7 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.UnregistrationParams
 ---@field public unregisterations gindent.kit.LSP.Unregistration[]
 
----@class gindent.kit.LSP.InitializeParams : gindent.kit.LSP._InitializeParams
+---@class gindent.kit.LSP.InitializeParams : gindent.kit.LSP._InitializeParams, gindent.kit.LSP.WorkspaceFoldersInitializeParams
 
 ---@class gindent.kit.LSP.InitializeResult
 ---@field public capabilities gindent.kit.LSP.ServerCapabilities The capabilities the language server provides.
@@ -646,7 +646,7 @@ LSP.TokenFormat = {
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document that was saved.
 ---@field public text? string Optional the content when saved. Depends on the includeText value<br>when the save notification was requested.
 
----@class gindent.kit.LSP.TextDocumentSaveRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.TextDocumentSaveRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.SaveOptions
 
 ---@class gindent.kit.LSP.WillSaveTextDocumentParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document that will be saved.
@@ -667,7 +667,7 @@ LSP.TokenFormat = {
 ---@field public version? integer Optional the version number of the document the diagnostics are published for.<br><br>@since 3.15.0
 ---@field public diagnostics gindent.kit.LSP.Diagnostic[] An array of diagnostic information items.
 
----@class gindent.kit.LSP.CompletionParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.CompletionParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public context? gindent.kit.LSP.CompletionContext The completion context. This is only available it the client specifies<br>to send this using the client capability `textDocument.completion.contextSupport === true`
 
 ---@class gindent.kit.LSP.CompletionItem
@@ -703,17 +703,17 @@ LSP.TokenFormat = {
 ---@field public insertTextMode? gindent.kit.LSP.InsertTextMode A default insert text mode.<br><br>@since 3.17.0
 ---@field public data? gindent.kit.LSP.LSPAny A default data value.<br><br>@since 3.17.0
 
----@class gindent.kit.LSP.CompletionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.CompletionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.CompletionOptions
 
----@class gindent.kit.LSP.HoverParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.HoverParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams
 
 ---@class gindent.kit.LSP.Hover
 ---@field public contents (gindent.kit.LSP.MarkupContent | gindent.kit.LSP.MarkedString | gindent.kit.LSP.MarkedString[]) The hover's content
 ---@field public range? gindent.kit.LSP.Range An optional range inside the text document that is used to<br>visualize the hover, e.g. by changing the background color.
 
----@class gindent.kit.LSP.HoverRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.HoverRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.HoverOptions
 
----@class gindent.kit.LSP.SignatureHelpParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.SignatureHelpParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams
 ---@field public context? gindent.kit.LSP.SignatureHelpContext The signature help context. This is only available if the client specifies<br>to send this using the client capability `textDocument.signatureHelp.contextSupport === true`<br><br>@since 3.15.0
 
 ---@class gindent.kit.LSP.SignatureHelp
@@ -721,26 +721,26 @@ LSP.TokenFormat = {
 ---@field public activeSignature? integer The active signature. If omitted or the value lies outside the<br>range of `signatures` the value defaults to zero or is ignored if<br>the `SignatureHelp` has no signatures.<br><br>Whenever possible implementors should make an active decision about<br>the active signature and shouldn't rely on a default value.<br><br>In future version of the protocol this property might become<br>mandatory to better express this.
 ---@field public activeParameter? integer The active parameter of the active signature. If omitted or the value<br>lies outside the range of `signatures[activeSignature].parameters`<br>defaults to 0 if the active signature has parameters. If<br>the active signature has no parameters it is ignored.<br>In future version of the protocol this property might become<br>mandatory to better express the active parameter if the<br>active signature does have any.
 
----@class gindent.kit.LSP.SignatureHelpRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.SignatureHelpRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.SignatureHelpOptions
 
----@class gindent.kit.LSP.DefinitionParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.DefinitionParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 
----@class gindent.kit.LSP.DefinitionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DefinitionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DefinitionOptions
 
----@class gindent.kit.LSP.ReferenceParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.ReferenceParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public context gindent.kit.LSP.ReferenceContext
 
----@class gindent.kit.LSP.ReferenceRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.ReferenceRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.ReferenceOptions
 
----@class gindent.kit.LSP.DocumentHighlightParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.DocumentHighlightParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 
 ---@class gindent.kit.LSP.DocumentHighlight
 ---@field public range gindent.kit.LSP.Range The range this highlight applies to.
 ---@field public kind? gindent.kit.LSP.DocumentHighlightKind The highlight kind, default is [text](#DocumentHighlightKind.Text).
 
----@class gindent.kit.LSP.DocumentHighlightRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentHighlightRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentHighlightOptions
 
----@class gindent.kit.LSP.DocumentSymbolParams
+---@class gindent.kit.LSP.DocumentSymbolParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The text document.
 
 ---@class gindent.kit.LSP.SymbolInformation : gindent.kit.LSP.BaseSymbolInformation
@@ -757,9 +757,9 @@ LSP.TokenFormat = {
 ---@field public selectionRange gindent.kit.LSP.Range The range that should be selected and revealed when this symbol is being picked, e.g the name of a function.<br>Must be contained by the `range`.
 ---@field public children? gindent.kit.LSP.DocumentSymbol[] Children of this symbol, e.g. properties of a class.
 
----@class gindent.kit.LSP.DocumentSymbolRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentSymbolRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentSymbolOptions
 
----@class gindent.kit.LSP.CodeActionParams
+---@class gindent.kit.LSP.CodeActionParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document in which the command was invoked.
 ---@field public range gindent.kit.LSP.Range The range for which the command was invoked.
 ---@field public context gindent.kit.LSP.CodeActionContext Context carrying additional information.
@@ -782,9 +782,9 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.CodeAction.disabled
 ---@field public reason string Human readable description of why the code action is currently disabled.<br><br>This is displayed in the code actions UI.
 
----@class gindent.kit.LSP.CodeActionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.CodeActionRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.CodeActionOptions
 
----@class gindent.kit.LSP.WorkspaceSymbolParams
+---@class gindent.kit.LSP.WorkspaceSymbolParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public query string A query string to filter symbols by. Clients may send an empty<br>string here to request all symbols.
 
 ---@class gindent.kit.LSP.WorkspaceSymbol : gindent.kit.LSP.BaseSymbolInformation
@@ -793,7 +793,7 @@ LSP.TokenFormat = {
 
 ---@class gindent.kit.LSP.WorkspaceSymbolRegistrationOptions : gindent.kit.LSP.WorkspaceSymbolOptions
 
----@class gindent.kit.LSP.CodeLensParams
+---@class gindent.kit.LSP.CodeLensParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document to request code lens for.
 
 ---@class gindent.kit.LSP.CodeLens
@@ -801,9 +801,9 @@ LSP.TokenFormat = {
 ---@field public command? gindent.kit.LSP.Command The command this code lens represents.
 ---@field public data? gindent.kit.LSP.LSPAny A data entry field that is preserved on a code lens item between<br>a [CodeLensRequest](#CodeLensRequest) and a [CodeLensResolveRequest]<br>(#CodeLensResolveRequest)
 
----@class gindent.kit.LSP.CodeLensRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.CodeLensRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.CodeLensOptions
 
----@class gindent.kit.LSP.DocumentLinkParams
+---@class gindent.kit.LSP.DocumentLinkParams : gindent.kit.LSP.WorkDoneProgressParams, gindent.kit.LSP.PartialResultParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document to provide document links for.
 
 ---@class gindent.kit.LSP.DocumentLink
@@ -812,20 +812,20 @@ LSP.TokenFormat = {
 ---@field public tooltip? string The tooltip text when you hover over this link.<br><br>If a tooltip is provided, is will be displayed in a string that includes instructions on how to<br>trigger the link, such as `{0} (ctrl + click)`. The specific instructions vary depending on OS,<br>user settings, and localization.<br><br>@since 3.15.0
 ---@field public data? gindent.kit.LSP.LSPAny A data entry field that is preserved on a document link between a<br>DocumentLinkRequest and a DocumentLinkResolveRequest.
 
----@class gindent.kit.LSP.DocumentLinkRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentLinkRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentLinkOptions
 
----@class gindent.kit.LSP.DocumentFormattingParams
+---@class gindent.kit.LSP.DocumentFormattingParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document to format.
 ---@field public options gindent.kit.LSP.FormattingOptions The format options.
 
----@class gindent.kit.LSP.DocumentFormattingRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentFormattingRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentFormattingOptions
 
----@class gindent.kit.LSP.DocumentRangeFormattingParams
+---@class gindent.kit.LSP.DocumentRangeFormattingParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document to format.
 ---@field public range gindent.kit.LSP.Range The range to format
 ---@field public options gindent.kit.LSP.FormattingOptions The format options
 
----@class gindent.kit.LSP.DocumentRangeFormattingRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentRangeFormattingRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentRangeFormattingOptions
 
 ---@class gindent.kit.LSP.DocumentOnTypeFormattingParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document to format.
@@ -833,18 +833,18 @@ LSP.TokenFormat = {
 ---@field public ch string The character that has been typed that triggered the formatting<br>on type request. That is not necessarily the last character that<br>got inserted into the document since the client could auto insert<br>characters as well (e.g. like automatic brace completion).
 ---@field public options gindent.kit.LSP.FormattingOptions The formatting options.
 
----@class gindent.kit.LSP.DocumentOnTypeFormattingRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.DocumentOnTypeFormattingRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.DocumentOnTypeFormattingOptions
 
----@class gindent.kit.LSP.RenameParams
+---@class gindent.kit.LSP.RenameParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public textDocument gindent.kit.LSP.TextDocumentIdentifier The document to rename.
 ---@field public position gindent.kit.LSP.Position The position at which this request was sent.
 ---@field public newName string The new name of the symbol. If the given name is not valid the<br>request must return a [ResponseError](#ResponseError) with an<br>appropriate message set.
 
----@class gindent.kit.LSP.RenameRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions
+---@class gindent.kit.LSP.RenameRegistrationOptions : gindent.kit.LSP.TextDocumentRegistrationOptions, gindent.kit.LSP.RenameOptions
 
----@class gindent.kit.LSP.PrepareRenameParams : gindent.kit.LSP.TextDocumentPositionParams
+---@class gindent.kit.LSP.PrepareRenameParams : gindent.kit.LSP.TextDocumentPositionParams, gindent.kit.LSP.WorkDoneProgressParams
 
----@class gindent.kit.LSP.ExecuteCommandParams
+---@class gindent.kit.LSP.ExecuteCommandParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public command string The identifier of the actual command handler.
 ---@field public arguments? gindent.kit.LSP.LSPAny[] Arguments that the command should be invoked with.
 
@@ -907,12 +907,12 @@ LSP.TokenFormat = {
 ---@field public start gindent.kit.LSP.Position The range's start position.
 ---@field public end gindent.kit.LSP.Position The range's end position.
 
----@class gindent.kit.LSP.ImplementationOptions
+---@class gindent.kit.LSP.ImplementationOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.StaticRegistrationOptions
 ---@field public id? string The id used to register the request. The id can be used to deregister<br>the request again. See also Registration#id.
 
----@class gindent.kit.LSP.TypeDefinitionOptions
+---@class gindent.kit.LSP.TypeDefinitionOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.WorkspaceFoldersChangeEvent
 ---@field public added gindent.kit.LSP.WorkspaceFolder[] The array of added workspace folders
@@ -931,21 +931,21 @@ LSP.TokenFormat = {
 ---@field public blue integer The blue component of this color in the range [0-1].
 ---@field public alpha integer The alpha component of this color in the range [0-1].
 
----@class gindent.kit.LSP.DocumentColorOptions
+---@class gindent.kit.LSP.DocumentColorOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.FoldingRangeOptions
+---@class gindent.kit.LSP.FoldingRangeOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.DeclarationOptions
+---@class gindent.kit.LSP.DeclarationOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.Position
 ---@field public line integer Line position in a document (zero-based).<br><br>If a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.<br>If a line number is negative, it defaults to 0.
 ---@field public character integer Character offset on a line in a document (zero-based).<br><br>The meaning of this offset is determined by the negotiated<br>`PositionEncodingKind`.<br><br>If the character value is greater than the line length it defaults back to the<br>line length.
 
----@class gindent.kit.LSP.SelectionRangeOptions
+---@class gindent.kit.LSP.SelectionRangeOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.CallHierarchyOptions
+---@class gindent.kit.LSP.CallHierarchyOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.SemanticTokensOptions
+---@class gindent.kit.LSP.SemanticTokensOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public legend gindent.kit.LSP.SemanticTokensLegend The legend used by the server
 ---@field public range? (boolean | {  }) Server supports providing semantic tokens for a specific range<br>of a document.
 ---@field public full? (boolean | { delta?: boolean }) Server supports providing semantic tokens for a full document.
@@ -955,7 +955,7 @@ LSP.TokenFormat = {
 ---@field public deleteCount integer The count of elements to remove.
 ---@field public data? integer[] The elements to insert.
 
----@class gindent.kit.LSP.LinkedEditingRangeOptions
+---@class gindent.kit.LSP.LinkedEditingRangeOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.FileCreate
 ---@field public uri string A file:// URI for the location of the file/folder being created.
@@ -996,9 +996,9 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.FileDelete
 ---@field public uri string A file:// URI for the location of the file/folder being deleted.
 
----@class gindent.kit.LSP.MonikerOptions
+---@class gindent.kit.LSP.MonikerOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.TypeHierarchyOptions
+---@class gindent.kit.LSP.TypeHierarchyOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.InlineValueContext
 ---@field public frameId integer The stack frame (as a DAP Id) where the execution has stopped.
@@ -1017,7 +1017,7 @@ LSP.TokenFormat = {
 ---@field public range gindent.kit.LSP.Range The document range for which the inline value applies.<br>The range is used to extract the evaluatable expression from the underlying document.
 ---@field public expression? string If specified the expression overrides the extracted expression.
 
----@class gindent.kit.LSP.InlineValueOptions
+---@class gindent.kit.LSP.InlineValueOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.InlayHintLabelPart
 ---@field public value string The value of this label part.
@@ -1029,7 +1029,7 @@ LSP.TokenFormat = {
 ---@field public kind gindent.kit.LSP.MarkupKind The type of the Markup
 ---@field public value string The content itself
 
----@class gindent.kit.LSP.InlayHintOptions
+---@class gindent.kit.LSP.InlayHintOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public resolveProvider? boolean The server provides support to resolve additional<br>information for an inlay hint item.
 
 ---@class gindent.kit.LSP.RelatedFullDocumentDiagnosticReport : gindent.kit.LSP.FullDocumentDiagnosticReport
@@ -1047,7 +1047,7 @@ LSP.TokenFormat = {
 ---@field public kind "unchanged" A document diagnostic report indicating<br>no changes to the last result. A server can<br>only return `unchanged` if result ids are<br>provided.
 ---@field public resultId string A result id which will be sent on the next<br>diagnostic request for the same document.
 
----@class gindent.kit.LSP.DiagnosticOptions
+---@class gindent.kit.LSP.DiagnosticOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public identifier? string An optional identifier under which the diagnostics are<br>managed by the client.
 ---@field public interFileDependencies boolean Whether the language has inter file dependencies meaning that<br>editing code in one file can result in a different diagnostic<br>set in another file. Inter file dependencies are common for<br>most programming languages and typically uncommon for linters.
 ---@field public workspaceDiagnostics boolean The server provides support for workspace diagnostics as well.
@@ -1099,7 +1099,7 @@ LSP.TokenFormat = {
 ---@field public id string The id used to unregister the request or notification. Usually an id<br>provided during the register request.
 ---@field public method string The method to unregister for.
 
----@class gindent.kit.LSP._InitializeParams
+---@class gindent.kit.LSP._InitializeParams : gindent.kit.LSP.WorkDoneProgressParams
 ---@field public processId (integer | nil) The process Id of the parent process that started<br>the server.<br><br>Is `null` if the process has not been started by another process.<br>If the parent process is not alive then the server should exit.
 ---@field public clientInfo? gindent.kit.LSP._InitializeParams.clientInfo Information about the client<br><br>@since 3.15.0
 ---@field public locale? string The locale the client is currently showing the user interface<br>in. This must not necessarily be the locale of the operating<br>system.<br><br>Uses IETF language tags as the value's syntax<br>(See https://en.wikipedia.org/wiki/IETF_language_tag)<br><br>@since 3.16.0
@@ -1195,7 +1195,7 @@ LSP.TokenFormat = {
 ---@field public insert gindent.kit.LSP.Range The range if the insert is requested
 ---@field public replace gindent.kit.LSP.Range The range if the replace is requested.
 
----@class gindent.kit.LSP.CompletionOptions
+---@class gindent.kit.LSP.CompletionOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public triggerCharacters? string[] Most tools trigger completion request automatically without explicitly requesting<br>it using a keyboard shortcut (e.g. Ctrl+Space). Typically they do so when the user<br>starts to type an identifier. For example if the user types `c` in a JavaScript file<br>code complete will automatically pop up present `console` besides others as a<br>completion item. Characters that make up identifiers don't need to be listed here.<br><br>If code complete should automatically be trigger on characters not being valid inside<br>an identifier (for example `.` in JavaScript) list them in `triggerCharacters`.
 ---@field public allCommitCharacters? string[] The list of all possible characters that commit a completion. This field can be used<br>if clients don't support individual commit characters per completion item. See<br>`ClientCapabilities.textDocument.completion.completionItem.commitCharactersSupport`<br><br>If a server provides both `allCommitCharacters` and commit characters on an individual<br>completion item the ones on the completion item win.<br><br>@since 3.2.0
 ---@field public resolveProvider? boolean The server provides support to resolve additional<br>information for a completion item.
@@ -1204,7 +1204,7 @@ LSP.TokenFormat = {
 ---@class gindent.kit.LSP.CompletionOptions.completionItem
 ---@field public labelDetailsSupport? boolean The server has support for completion item label<br>details (see also `CompletionItemLabelDetails`) when<br>receiving a completion item in a resolve call.<br><br>@since 3.17.0
 
----@class gindent.kit.LSP.HoverOptions
+---@class gindent.kit.LSP.HoverOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.SignatureHelpContext
 ---@field public triggerKind gindent.kit.LSP.SignatureHelpTriggerKind Action that caused signature help to be triggered.
@@ -1218,18 +1218,18 @@ LSP.TokenFormat = {
 ---@field public parameters? gindent.kit.LSP.ParameterInformation[] The parameters of this signature.
 ---@field public activeParameter? integer The index of the active parameter.<br><br>If provided, this is used in place of `SignatureHelp.activeParameter`.<br><br>@since 3.16.0
 
----@class gindent.kit.LSP.SignatureHelpOptions
+---@class gindent.kit.LSP.SignatureHelpOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public triggerCharacters? string[] List of characters that trigger signature help automatically.
 ---@field public retriggerCharacters? string[] List of characters that re-trigger signature help.<br><br>These trigger characters are only active when signature help is already showing. All trigger characters<br>are also counted as re-trigger characters.<br><br>@since 3.15.0
 
----@class gindent.kit.LSP.DefinitionOptions
+---@class gindent.kit.LSP.DefinitionOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.ReferenceContext
 ---@field public includeDeclaration boolean Include the declaration of the current symbol.
 
----@class gindent.kit.LSP.ReferenceOptions
+---@class gindent.kit.LSP.ReferenceOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.DocumentHighlightOptions
+---@class gindent.kit.LSP.DocumentHighlightOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.BaseSymbolInformation
 ---@field public name string The name of this symbol.
@@ -1237,7 +1237,7 @@ LSP.TokenFormat = {
 ---@field public tags? gindent.kit.LSP.SymbolTag[] Tags for this symbol.<br><br>@since 3.16.0
 ---@field public containerName? string The name of the symbol containing this symbol. This information is for<br>user interface purposes (e.g. to render a qualifier in the user interface<br>if necessary). It can't be used to re-infer a hierarchy for the document<br>symbols.
 
----@class gindent.kit.LSP.DocumentSymbolOptions
+---@class gindent.kit.LSP.DocumentSymbolOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public label? string A human-readable string that is shown when multiple outlines trees<br>are shown for the same document.<br><br>@since 3.16.0
 
 ---@class gindent.kit.LSP.CodeActionContext
@@ -1245,17 +1245,17 @@ LSP.TokenFormat = {
 ---@field public only? gindent.kit.LSP.CodeActionKind[] Requested kind of actions to return.<br><br>Actions not of this kind are filtered out by the client before being shown. So servers<br>can omit computing them.
 ---@field public triggerKind? gindent.kit.LSP.CodeActionTriggerKind The reason why code actions were requested.<br><br>@since 3.17.0
 
----@class gindent.kit.LSP.CodeActionOptions
+---@class gindent.kit.LSP.CodeActionOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public codeActionKinds? gindent.kit.LSP.CodeActionKind[] CodeActionKinds that this server may return.<br><br>The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server<br>may list out every specific kind they provide.
 ---@field public resolveProvider? boolean The server provides support to resolve additional<br>information for a code action.<br><br>@since 3.16.0
 
----@class gindent.kit.LSP.WorkspaceSymbolOptions
+---@class gindent.kit.LSP.WorkspaceSymbolOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public resolveProvider? boolean The server provides support to resolve additional<br>information for a workspace symbol.<br><br>@since 3.17.0
 
----@class gindent.kit.LSP.CodeLensOptions
+---@class gindent.kit.LSP.CodeLensOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public resolveProvider? boolean Code lens has a resolve provider as well.
 
----@class gindent.kit.LSP.DocumentLinkOptions
+---@class gindent.kit.LSP.DocumentLinkOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public resolveProvider? boolean Document links have a resolve provider as well.
 
 ---@class gindent.kit.LSP.FormattingOptions
@@ -1265,18 +1265,18 @@ LSP.TokenFormat = {
 ---@field public insertFinalNewline? boolean Insert a newline character at the end of the file if one does not exist.<br><br>@since 3.15.0
 ---@field public trimFinalNewlines? boolean Trim all newlines after the final newline at the end of the file.<br><br>@since 3.15.0
 
----@class gindent.kit.LSP.DocumentFormattingOptions
+---@class gindent.kit.LSP.DocumentFormattingOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
----@class gindent.kit.LSP.DocumentRangeFormattingOptions
+---@class gindent.kit.LSP.DocumentRangeFormattingOptions : gindent.kit.LSP.WorkDoneProgressOptions
 
 ---@class gindent.kit.LSP.DocumentOnTypeFormattingOptions
 ---@field public firstTriggerCharacter string A character on which formatting should be triggered, like `{`.
 ---@field public moreTriggerCharacter? string[] More trigger characters.
 
----@class gindent.kit.LSP.RenameOptions
+---@class gindent.kit.LSP.RenameOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public prepareProvider? boolean Renames should be checked and tested before being executed.<br><br>@since version 3.12.0
 
----@class gindent.kit.LSP.ExecuteCommandOptions
+---@class gindent.kit.LSP.ExecuteCommandOptions : gindent.kit.LSP.WorkDoneProgressOptions
 ---@field public commands string[] The commands to be executed on the server
 
 ---@class gindent.kit.LSP.SemanticTokensLegend
@@ -1350,7 +1350,7 @@ LSP.TokenFormat = {
 ---@field public notebookSelector ({ notebook: (string | gindent.kit.LSP.NotebookDocumentFilter), cells?: { language: string }[] } | { notebook?: (string | gindent.kit.LSP.NotebookDocumentFilter), cells: { language: string }[] })[] The notebooks to be synced
 ---@field public save? boolean Whether save notification should be forwarded to<br>the server. Will only be honored if mode === `notebook`.
 
----@class gindent.kit.LSP.NotebookDocumentSyncRegistrationOptions : gindent.kit.LSP.NotebookDocumentSyncOptions
+---@class gindent.kit.LSP.NotebookDocumentSyncRegistrationOptions : gindent.kit.LSP.NotebookDocumentSyncOptions, gindent.kit.LSP.StaticRegistrationOptions
 
 ---@class gindent.kit.LSP.WorkspaceFoldersServerCapabilities
 ---@field public supported? boolean The server has support for workspace folders
@@ -1739,6 +1739,134 @@ LSP.TokenFormat = {
 ---@field public parser string The name of the parser.
 ---@field public version? string The version of the parser.
 ---@field public allowedTags? string[] A list of HTML tags that the client allows / supports in<br>Markdown.<br><br>@since 3.17.0
+
+---@alias gindent.kit.LSP.TextDocumentImplementationResponse (gindent.kit.LSP.Definition | gindent.kit.LSP.DefinitionLink[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentTypeDefinitionResponse (gindent.kit.LSP.Definition | gindent.kit.LSP.DefinitionLink[] | nil)
+
+---@alias gindent.kit.LSP.WorkspaceWorkspaceFoldersResponse (gindent.kit.LSP.WorkspaceFolder[] | nil)
+
+---@alias gindent.kit.LSP.WorkspaceConfigurationResponse gindent.kit.LSP.LSPAny[]
+
+---@alias gindent.kit.LSP.TextDocumentDocumentColorResponse gindent.kit.LSP.ColorInformation[]
+
+---@alias gindent.kit.LSP.TextDocumentColorPresentationResponse gindent.kit.LSP.ColorPresentation[]
+
+---@alias gindent.kit.LSP.TextDocumentFoldingRangeResponse (gindent.kit.LSP.FoldingRange[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentDeclarationResponse (gindent.kit.LSP.Declaration | gindent.kit.LSP.DeclarationLink[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentSelectionRangeResponse (gindent.kit.LSP.SelectionRange[] | nil)
+
+---@alias gindent.kit.LSP.WindowWorkDoneProgressCreateResponse nil
+
+---@alias gindent.kit.LSP.TextDocumentPrepareCallHierarchyResponse (gindent.kit.LSP.CallHierarchyItem[] | nil)
+
+---@alias gindent.kit.LSP.CallHierarchyIncomingCallsResponse (gindent.kit.LSP.CallHierarchyIncomingCall[] | nil)
+
+---@alias gindent.kit.LSP.CallHierarchyOutgoingCallsResponse (gindent.kit.LSP.CallHierarchyOutgoingCall[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentSemanticTokensFullResponse (gindent.kit.LSP.SemanticTokens | nil)
+
+---@alias gindent.kit.LSP.TextDocumentSemanticTokensFullDeltaResponse (gindent.kit.LSP.SemanticTokens | gindent.kit.LSP.SemanticTokensDelta | nil)
+
+---@alias gindent.kit.LSP.TextDocumentSemanticTokensRangeResponse (gindent.kit.LSP.SemanticTokens | nil)
+
+---@alias gindent.kit.LSP.WorkspaceSemanticTokensRefreshResponse nil
+
+---@alias gindent.kit.LSP.WindowShowDocumentResponse gindent.kit.LSP.ShowDocumentResult
+
+---@alias gindent.kit.LSP.TextDocumentLinkedEditingRangeResponse (gindent.kit.LSP.LinkedEditingRanges | nil)
+
+---@alias gindent.kit.LSP.WorkspaceWillCreateFilesResponse (gindent.kit.LSP.WorkspaceEdit | nil)
+
+---@alias gindent.kit.LSP.WorkspaceWillRenameFilesResponse (gindent.kit.LSP.WorkspaceEdit | nil)
+
+---@alias gindent.kit.LSP.WorkspaceWillDeleteFilesResponse (gindent.kit.LSP.WorkspaceEdit | nil)
+
+---@alias gindent.kit.LSP.TextDocumentMonikerResponse (gindent.kit.LSP.Moniker[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentPrepareTypeHierarchyResponse (gindent.kit.LSP.TypeHierarchyItem[] | nil)
+
+---@alias gindent.kit.LSP.TypeHierarchySupertypesResponse (gindent.kit.LSP.TypeHierarchyItem[] | nil)
+
+---@alias gindent.kit.LSP.TypeHierarchySubtypesResponse (gindent.kit.LSP.TypeHierarchyItem[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentInlineValueResponse (gindent.kit.LSP.InlineValue[] | nil)
+
+---@alias gindent.kit.LSP.WorkspaceInlineValueRefreshResponse nil
+
+---@alias gindent.kit.LSP.TextDocumentInlayHintResponse (gindent.kit.LSP.InlayHint[] | nil)
+
+---@alias gindent.kit.LSP.InlayHintResolveResponse gindent.kit.LSP.InlayHint
+
+---@alias gindent.kit.LSP.WorkspaceInlayHintRefreshResponse nil
+
+---@alias gindent.kit.LSP.TextDocumentDiagnosticResponse gindent.kit.LSP.DocumentDiagnosticReport
+
+---@alias gindent.kit.LSP.WorkspaceDiagnosticResponse gindent.kit.LSP.WorkspaceDiagnosticReport
+
+---@alias gindent.kit.LSP.WorkspaceDiagnosticRefreshResponse nil
+
+---@alias gindent.kit.LSP.ClientRegisterCapabilityResponse nil
+
+---@alias gindent.kit.LSP.ClientUnregisterCapabilityResponse nil
+
+---@alias gindent.kit.LSP.InitializeResponse gindent.kit.LSP.InitializeResult
+
+---@alias gindent.kit.LSP.ShutdownResponse nil
+
+---@alias gindent.kit.LSP.WindowShowMessageRequestResponse (gindent.kit.LSP.MessageActionItem | nil)
+
+---@alias gindent.kit.LSP.TextDocumentWillSaveWaitUntilResponse (gindent.kit.LSP.TextEdit[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentCompletionResponse (gindent.kit.LSP.CompletionItem[] | gindent.kit.LSP.CompletionList | nil)
+
+---@alias gindent.kit.LSP.CompletionItemResolveResponse gindent.kit.LSP.CompletionItem
+
+---@alias gindent.kit.LSP.TextDocumentHoverResponse (gindent.kit.LSP.Hover | nil)
+
+---@alias gindent.kit.LSP.TextDocumentSignatureHelpResponse (gindent.kit.LSP.SignatureHelp | nil)
+
+---@alias gindent.kit.LSP.TextDocumentDefinitionResponse (gindent.kit.LSP.Definition | gindent.kit.LSP.DefinitionLink[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentReferencesResponse (gindent.kit.LSP.Location[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentDocumentHighlightResponse (gindent.kit.LSP.DocumentHighlight[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentDocumentSymbolResponse (gindent.kit.LSP.SymbolInformation[] | gindent.kit.LSP.DocumentSymbol[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentCodeActionResponse ((gindent.kit.LSP.Command | gindent.kit.LSP.CodeAction)[] | nil)
+
+---@alias gindent.kit.LSP.CodeActionResolveResponse gindent.kit.LSP.CodeAction
+
+---@alias gindent.kit.LSP.WorkspaceSymbolResponse (gindent.kit.LSP.SymbolInformation[] | gindent.kit.LSP.WorkspaceSymbol[] | nil)
+
+---@alias gindent.kit.LSP.WorkspaceSymbolResolveResponse gindent.kit.LSP.WorkspaceSymbol
+
+---@alias gindent.kit.LSP.TextDocumentCodeLensResponse (gindent.kit.LSP.CodeLens[] | nil)
+
+---@alias gindent.kit.LSP.CodeLensResolveResponse gindent.kit.LSP.CodeLens
+
+---@alias gindent.kit.LSP.WorkspaceCodeLensRefreshResponse nil
+
+---@alias gindent.kit.LSP.TextDocumentDocumentLinkResponse (gindent.kit.LSP.DocumentLink[] | nil)
+
+---@alias gindent.kit.LSP.DocumentLinkResolveResponse gindent.kit.LSP.DocumentLink
+
+---@alias gindent.kit.LSP.TextDocumentFormattingResponse (gindent.kit.LSP.TextEdit[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentRangeFormattingResponse (gindent.kit.LSP.TextEdit[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentOnTypeFormattingResponse (gindent.kit.LSP.TextEdit[] | nil)
+
+---@alias gindent.kit.LSP.TextDocumentRenameResponse (gindent.kit.LSP.WorkspaceEdit | nil)
+
+---@alias gindent.kit.LSP.TextDocumentPrepareRenameResponse (gindent.kit.LSP.PrepareRenameResult | nil)
+
+---@alias gindent.kit.LSP.WorkspaceExecuteCommandResponse (gindent.kit.LSP.LSPAny | nil)
+
+---@alias gindent.kit.LSP.WorkspaceApplyEditResponse gindent.kit.LSP.ApplyWorkspaceEditResult
 
 ---@alias gindent.kit.LSP.Definition (gindent.kit.LSP.Location | gindent.kit.LSP.Location[])
 

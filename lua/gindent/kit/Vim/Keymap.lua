@@ -1,5 +1,17 @@
 local kit = require('gindent.kit')
-local AsyncTask = require('gindent.kit.Async.AsyncTask')
+local Async = require('gindent.kit.Async')
+
+---@alias gindent.kit.Vim.Keymap.Keys { keys: string, remap: boolean }
+---@alias gindent.kit.Vim.Keymap.KeysSpecifier string|{ keys: string, remap: boolean }
+
+---@param keys gindent.kit.Vim.Keymap.KeysSpecifier
+---@return gindent.kit.Vim.Keymap.Keys
+local function to_keys(keys)
+  if type(keys) == 'table' then
+    return keys
+  end
+  return { keys = keys, remap = false }
+end
 
 local Keymap = {}
 
@@ -12,41 +24,65 @@ function Keymap.termcodes(keys)
   return vim.api.nvim_replace_termcodes(keys, true, true, true)
 end
 
----Send keys.
----@param keys string
----@param mode string
-function Keymap.send(keys, mode)
-  local uuid = kit.uuid()
-  return AsyncTask.new(function(resolve)
-    Keymap._callbacks[uuid] = resolve
+---Set callback for consuming next typeahead.
+---@param callback fun()
+---@return gindent.kit.Async.AsyncTask
+function Keymap.next(callback)
+  return Keymap.send(''):next(callback)
+end
 
-    local callback = Keymap.termcodes(('<Cmd>lua require("gindent.kit.Vim.Keymap")._resolve(%s)<CR>'):format(uuid))
-    if string.match(mode, 'i') then
-      vim.api.nvim_feedkeys(callback, 'in', true)
-      vim.api.nvim_feedkeys(keys, mode, true)
-    else
-      vim.api.nvim_feedkeys(keys, mode, true)
+---Send keys.
+---@param keys gindent.kit.Vim.Keymap.KeysSpecifier|gindent.kit.Vim.Keymap.KeysSpecifier[]
+---@param no_insert? boolean
+---@return gindent.kit.Async.AsyncTask
+function Keymap.send(keys, no_insert)
+  local unique_id = kit.unique_id()
+  return Async.new(function(resolve, _)
+    Keymap._callbacks[unique_id] = resolve
+
+    local callback = Keymap.termcodes(('<Cmd>lua require("gindent.kit.Vim.Keymap")._resolve(%s)<CR>'):format(unique_id))
+    if no_insert then
+      for _, keys_ in ipairs(kit.to_array(keys)) do
+        keys_ = to_keys(keys_)
+        vim.api.nvim_feedkeys(keys_.keys, keys_.remap and 'm' or 'n', true)
+      end
       vim.api.nvim_feedkeys(callback, 'n', true)
+    else
+      vim.api.nvim_feedkeys(callback, 'in', true)
+      for _, keys_ in ipairs(kit.reverse(kit.to_array(keys))) do
+        keys_ = to_keys(keys_)
+        vim.api.nvim_feedkeys(keys_.keys, 'i' .. (keys_.remap and 'm' or 'n'), true)
+      end
     end
   end):catch(function()
-    Keymap._callbacks[uuid] = nil
+    Keymap._callbacks[unique_id] = nil
   end)
+end
+
+---Return sendabke keys with callback function.
+---@param callback fun(...: any): any
+---@return string
+function Keymap.to_sendable(callback)
+  local unique_id = kit.unique_id()
+  Keymap._callbacks[unique_id] = Async.async(callback)
+  return Keymap.termcodes(('<Cmd>lua require("gindent.kit.Vim.Keymap")._resolve(%s)<CR>'):format(unique_id))
 end
 
 ---Test spec helper.
 ---@param spec fun(): any
 function Keymap.spec(spec)
-  local task = AsyncTask.resolve():next(spec)
+  local task = Async.resolve():next(Async.async(spec))
   vim.api.nvim_feedkeys('', 'x', true)
   task:sync()
   collectgarbage('collect')
+  vim.wait(200)
 end
 
 ---Resolve running keys.
----@param uuid integer
-function Keymap._resolve(uuid)
-  Keymap._callbacks[uuid]()
-  Keymap._callbacks[uuid] = nil
+---@param unique_id integer
+function Keymap._resolve(unique_id)
+  Keymap._callbacks[unique_id]()
+  Keymap._callbacks[unique_id] = nil
 end
 
 return Keymap
