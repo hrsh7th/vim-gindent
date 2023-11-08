@@ -8,7 +8,7 @@ let g:gindent.enabled = get(g:gindent, 'enabled', { -> v:false })
 
 augroup gindent
   autocmd!
-  autocmd FileType * call timer_start(0, { -> gindent#apply() })
+  autocmd FileType * call timer_start(200, { -> gindent#apply() })
 augroup END
 
 call gindent#register_preset('*', gindent#preset#default#get())

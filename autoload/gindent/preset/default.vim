@@ -16,10 +16,10 @@ function! gindent#preset#default#get() abort
   \     { 'prev': ['\V<\m', '[^>]\{-}', '$'] },
   \   ],
   \   'dedent_patterns': [
-  \     { 'curr': ['^', '\V}\m'] },
-  \     { 'curr': ['^', '\V)\m'] },
-  \     { 'curr': ['^', '\V]\m'] },
-  \     { 'curr': ['^', '\V>\m'] },
+  \     { 'curr': ['^', '\V}\m', ',\?'] },
+  \     { 'curr': ['^', '\V)\m', ',\?'] },
+  \     { 'curr': ['^', '\V]\m', ',\?'] },
+  \     { 'curr': ['^', '\V>\m', ',\?'] },
   \   ]
   \ }
 endfunction
