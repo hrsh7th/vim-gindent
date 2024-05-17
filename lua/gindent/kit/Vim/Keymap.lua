@@ -1,8 +1,8 @@
 local kit = require('gindent.kit')
 local Async = require('gindent.kit.Async')
 
----@alias gindent.kit.Vim.Keymap.Keys { keys: string, remap: boolean }
----@alias gindent.kit.Vim.Keymap.KeysSpecifier string|{ keys: string, remap: boolean }
+---@alias gindent.kit.Vim.Keymap.Keys { keys: string, remap?: boolean }
+---@alias gindent.kit.Vim.Keymap.KeysSpecifier string|gindent.kit.Vim.Keymap.Keys
 
 ---@param keys gindent.kit.Vim.Keymap.KeysSpecifier
 ---@return gindent.kit.Vim.Keymap.Keys
@@ -22,6 +22,11 @@ Keymap._callbacks = {}
 ---@return string
 function Keymap.termcodes(keys)
   return vim.api.nvim_replace_termcodes(keys, true, true, true)
+end
+
+---Normalize keycode.
+function Keymap.normalize(s)
+  return vim.fn.keytrans(Keymap.termcodes(s))
 end
 
 ---Set callback for consuming next typeahead.
