@@ -7,7 +7,7 @@ function! gindent#preset#default#get() abort
   \     '>',
   \   ],
   \   'manual_patterns': [
-  \     { 'curr': ['^', '\*', '/\?$'], 'func': function('gindent#misc#doc_comment') },
+  \     { 'curr': ['^', '\V*\m'], 'func': function('gindent#misc#doc_comment') },
   \   ],
   \   'indent_patterns': [
   \     { 'prev': ['\V{\m', '$'] },
