@@ -12,14 +12,14 @@ endfunction
 "
 function! gindent#apply() abort
   if g:gindent.enabled()
-    if exists('b:gindent') && get(b:gindent, 'setup', v:false)
+    let b:gindent = get(b:, 'gindent', {})
+    if get(b:gindent, 'setup', v:false)
       return
     endif
-    let b:gindent = get(b:, 'gindent', {})
     let b:gindent.setup = v:true
 
-    let l:preset = get(s:presets, &filetype, gindent#preset#default#get())
     setlocal indentexpr=gindent#indentexpr()
+    let l:preset = get(s:presets, &filetype, gindent#preset#default#get())
     if has_key(l:preset, 'indentkeys')
       execute printf('setlocal indentkeys+=%s', join(map(l:preset.indentkeys, '"=" ..  escape(v:val, ", \t\\")'), ','))
     endif
